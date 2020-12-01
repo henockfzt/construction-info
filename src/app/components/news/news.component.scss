@@ -1,0 +1,49 @@
+.question{
+  display:flex;
+  border-bottom: .1px solid #ddd;
+}
+.question-stats{
+  display:flex;
+}
+.div-stat{
+  margin-right:10px;
+  justify-content: center;
+  display:flex;
+  flex-direction: column;
+
+}
+.question-title p{
+  margin:0;
+}
+.question-title{
+  margin:0px 20px;
+  color:blueviolet;
+  font-size: 19px;
+}
+.question-stats div p{
+  align-self: center;
+  margin:1px 2px;
+  font-size: 14px;
+  color:#777;
+}
+.question-details{
+  flex:1;
+
+
+}
+.question-tag-time{
+  display:flex;
+  justify-content: space-between;
+  margin:10px 20px;
+}
+nz-tag{
+  color:black;
+}
+.question-time-stamp{
+  font-size: 15px;
+  color:#777;
+}
+#btn-askquestion{
+  height: 35px;
+}
+

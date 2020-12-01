@@ -1,0 +1,26 @@
+<h1>Rental Machines</h1>
+<div>
+
+  <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
+    <label for="name"></label>
+    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
+    <h2 >Price Range:</h2>
+    <span style="margin-left: 40px;align-self:center;">100BR</span>
+    <nz-slider style="flex:0.4;" nzRange [(ngModel)]="value2" [nzDisabled]="disabled"></nz-slider>
+    <span style="margin-left: 40px;align-self:center;">1000BR</span>
+    <button nz-button nzType="primary" >Filter</button>
+  </div>
+
+</div>
+<div id="div-cards">
+  <nz-card class="card-items" style="width:400px;" *ngFor="let machine of rentalMachines"  [nzCover]="coverTemplate">
+    <nz-card-meta
+      nzTitle="{{machine.name}}"
+      nzDescription="ma"></nz-card-meta>
+  </nz-card>
+</div>
+
+
+<ng-template #coverTemplate>
+  <img alt="example" src="../assets/loder.png" />
+</ng-template>

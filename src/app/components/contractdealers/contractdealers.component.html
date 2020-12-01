@@ -1,0 +1,42 @@
+<h2>Contract Dealers</h2>
+<div>
+
+  <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
+    <label for="name"></label>
+    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
+    <input id="price" style="flex:0.4;" nz-input placeholder="Price" [(ngModel)]="value" />
+    <input id="type" style="flex:0.4;" nz-input placeholder="Type" [(ngModel)]="value" />
+    <button nz-button nzType="primary" >Filter</button>
+  </div>
+
+</div>
+<nz-table #basicTable [nzData]="dataSet">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Type</th>
+    <th>Receipt</th>
+    <th>Phone No.</th>
+    <th>Actions</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let dealer of contractDealers">
+    <td>{{dealer.name}}</td>
+    <td>{{dealer.price}}</td>
+    <td>{{dealer.type}}</td>
+    <td>{{dealer.receipt}}</td>
+    <td>{{dealer.phoneNo}}</td>
+
+
+
+    <td>
+      <a>Edit </a>
+      <nz-divider nzType="vertical"></nz-divider>
+      <a>Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

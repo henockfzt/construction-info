@@ -1,0 +1,20 @@
+<h1>News</h1>
+<div *ngFor="let new of news"  class="question">
+
+  <div class="question-details">
+    <div>
+      <div class="question-title" >
+        <a routerLink="../questionanswer/{{id}}"> <p>{{new.title}}</p></a>
+      </div>
+    </div>
+    <div class="question-tag-time">
+      <div>
+        <p>{{new.description}}</p>
+      </div>
+
+      <span class="question-time-stamp">a few seconds ago</span>
+    </div>
+  </div>
+
+</div>
+

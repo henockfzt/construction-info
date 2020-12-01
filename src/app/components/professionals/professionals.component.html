@@ -1,0 +1,161 @@
+<div id="top">
+  <h2>Professionals</h2>
+  <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Professional</button>
+</div>
+<div>
+
+  <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
+    <label for="name"></label>
+    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
+    <input id="experience" style="flex:0.4;" nz-input placeholder="Experience" [(ngModel)]="value" />
+    <input id="speciality" style="flex:0.4;" nz-input placeholder="Speciality" [(ngModel)]="value" />
+    <button nz-button nzType="primary" >Filter</button>
+  </div>
+
+</div>
+<nz-table #basicTable [nzData]="dataSet">
+  <thead>
+
+  <tr>
+    <th>Name</th>
+    <th>Educational Status</th>
+    <th>Speciality</th>
+    <th>Experience</th>
+    <th>Phone No.</th>
+    <th>Actions</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let professional of professionals">
+    <td>{{professional.name}}</td>
+    <td>{{professional.educationalStatus}}</td>
+    <td>{{professional.speciality}}</td>
+    <td>{{professional.experience}}</td>
+    <td>{{professional.phoneNo}}</td>
+
+
+
+
+
+
+    <td>
+      <a (click)="edit(professional)">Edit</a>
+      <nz-divider nzType="vertical"></nz-divider>
+      <a (click)="showDeleteConfirm(professional)">Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="720"
+  [nzVisible]="visible"
+  nzTitle="Create Professional"
+  (nzOnClose)="close()">
+  <form nz-form [formGroup]="createProviderForm">
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Professional Name</nz-form-label>
+          <nz-form-control nzErrorTip="Material is required">
+            <input formControlName="name" nz-input placeholder="Please enter professional's name" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Educational Status</nz-form-label>
+          <nz-form-control  nzErrorTip="Educational Status is required">
+            <input formControlName="educationalStatus" nz-input placeholder="Please enter educational status" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Speciality</nz-form-label>
+          <nz-form-control nzErrorTip="Speciality is required">
+            <input formControlName="speciality" nz-input placeholder="Please enter speciality" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8">
+
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Unit Price</nz-form-label>
+          <nz-form-control nzErrorTip="Phone number is required">
+            <input formControlName="phoneNo" nz-input placeholder="Please enter phone number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="postProfessional()" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+  </form>
+</nz-drawer>
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="720"
+  [nzVisible]="editVisible"
+  nzTitle="Edit Professional"
+  (nzOnClose)="close()">
+  <form nz-form [formGroup]="createProviderForm">
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Professional Name</nz-form-label>
+          <nz-form-control nzErrorTip="Professional Name is required">
+            <input [(ngModel)]="name" formControlName="name" nz-input placeholder="Please enter professional name" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Type</nz-form-label>
+          <nz-form-control  nzErrorTip="Grade is required">
+            <input [(ngModel)]="educationalStatus" formControlName="educationalStatus" nz-input placeholder="Please enter Educational status" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Speciality</nz-form-label>
+          <nz-form-control nzErrorTip="Type is required">
+            <input [(ngModel)]="speciality" formControlName="speciality" nz-input placeholder="Please enter company type" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8">
+
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Phone Number</nz-form-label>
+          <nz-form-control nzErrorTip="Phone Number is required">
+            <input [(ngModel)]="phoneNo" formControlName="phoneNo" nz-input placeholder="Please enter company phone number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <button type="button" (click)="closeEdit()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="onUpdateProfessional()" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+  </form>
+</nz-drawer>

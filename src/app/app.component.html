@@ -1,0 +1,58 @@
+<nz-layout>
+  <nz-header>
+    <!--<div class="logo"></div>-->
+    <div>
+      <h2 class="header-title">Construction Info</h2>
+    </div>
+    <div>
+      <nz-avatar *ngIf="email!=''" nzSize="large" nzIcon="user"></nz-avatar>
+      <span id="span-display-name">{{email}}</span>
+      <ul nz-menu nzTheme="dark" nzMode="horizontal" class="header-menu">
+
+          <button nz-button (click)="logout()" nzType="dashed"><i nz-icon nzType="logout" ></i>{{isLoggedIn?'Logout':'Login'}}
+          </button>
+
+
+      </ul>
+    </div>
+
+  </nz-header>
+
+  <nz-layout>
+    <nz-card>
+
+
+      <nz-sider nzWidth="200px" nzTheme="dark">
+        <ul nz-menu nzMode="inline" class="sider-menu">
+          <li>
+            <ul>
+              <li nz-menu-item nzSelected><a routerLink="company">Companies</a></li>
+              <li nz-menu-item ><a routerLink="rentalmachines"> Rental Machines</a></li>
+              <li nz-menu-item><a routerLink="materialprices"> Material Prices</a></li>
+
+              <li nz-menu-item><a routerLink="professionals">Professionals</a></li>
+              <li nz-menu-item><a routerLink="contract">Contract Dealers</a></li>
+              <li nz-menu-item><a routerLink="machinevendors">Material Vendors</a></li>
+              <li nz-menu-item><a routerLink="licenseinfo">Construction License Info</a></li>
+            </ul>
+          </li>
+          <li>
+            <ul>
+              <li nz-menu-item><a routerLink="bids">Bids</a></li>
+              <li nz-menu-item><a routerLink="vacancy">Vacancies</a></li>
+              <li nz-menu-item><a routerLink="woreda">Woredas</a></li>
+              <li nz-menu-item><a routerLink="news">News </a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </nz-sider>
+    </nz-card>
+    <nz-layout class="inner-layout">
+      <nz-content>
+
+        <app-main></app-main>
+      </nz-content>
+    </nz-layout>
+  </nz-layout>
+</nz-layout>

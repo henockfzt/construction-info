@@ -1,0 +1,13 @@
+#span-display-name{
+  color:#eaeaea;
+  margin:0px 10px;
+}
+#div-cards{
+  display:flex;
+  flex-wrap: wrap;
+
+  grid-template-rows: repeat(3,1fr);
+}
+#div-cards .card-items{
+  margin:20px;
+}

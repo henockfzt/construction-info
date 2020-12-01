@@ -1,0 +1,33 @@
+<h1>Vacancies</h1>
+<div *ngFor="let vacancy of vacancies"  class="question">
+  <div class="question-stats">
+    <div class="div-stat">
+      <p>{{vacancy.experience}}</p>
+      <p>Experience </p>
+    </div>
+    <div class="div-stat">
+      <p>{{vacancy.quantity}}</p>
+      <p>Quantity </p>
+    </div>
+    <div class="div-stat">
+      <p>{{vacancy.salary}}</p>
+      <p>Salary </p>
+    </div>
+  </div>
+  <div class="question-details">
+    <div>
+      <div class="question-title" >
+        <a routerLink="../questionanswer/{{id}}"> <p>{{vacancy.title}}</p></a>
+      </div>
+    </div>
+    <div class="question-tag-time">
+      <div>
+        <nz-tag   id="tag" [nzColor]="'lightblue'">{{vacancy.companyName}}</nz-tag>
+      </div>
+
+      <span class="question-time-stamp">a few seconds ago</span>
+    </div>
+  </div>
+
+</div>
+

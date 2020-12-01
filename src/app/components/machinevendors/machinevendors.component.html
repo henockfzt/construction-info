@@ -1,0 +1,33 @@
+<h2>Material Vendors</h2>
+<div>
+
+  <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
+    <label for="name"></label>
+    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
+    <button nz-button nzType="primary" >Filter</button>
+  </div>
+
+</div>
+<nz-table #basicTable [nzData]="dataSet">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Location</th>
+    <th>Phone</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let vendor of vendors">
+    <td>{{vendor.name}}</td>
+    <td>{{vendor.type}}</td>
+    <td>HQ Mekelle</td>
+    <td>0923-38-44-43</td>
+    <td>
+      <a>Edit</a>
+      <nz-divider nzType="vertical"></nz-divider>
+      <a>Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

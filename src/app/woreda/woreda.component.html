@@ -1,0 +1,40 @@
+<h2>Woreda</h2>
+<div>
+
+  <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
+    <label for="name"></label>
+    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
+    <input id="experience" style="flex:0.4;" nz-input placeholder="Region" [(ngModel)]="value" />
+    <input id="speciality" style="flex:0.4;" nz-input placeholder="Sub City" [(ngModel)]="value" />
+    <button nz-button nzType="primary" >Filter</button>
+  </div>
+
+</div>
+<nz-table #basicTable [nzData]="dataSet">
+  <thead>
+  <tr>
+    <th>Woreda No</th>
+    <th>Region</th>
+    <th>Sub City</th>
+    <th>Phone No.</th>
+    <th>Actions</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of data">
+    <td>{{data}}</td>
+    <td>Addis Ababa</td>
+    <td>Bole</td>
+    <td>+251251113558</td>
+
+
+
+    <td>
+      <a>Edit 一 {{data.name}}</a>
+      <nz-divider nzType="vertical"></nz-divider>
+      <a>Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
