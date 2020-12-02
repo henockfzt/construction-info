@@ -19,6 +19,9 @@ export class MaterialVendorComponent implements OnInit {
   public isLoggedIn = false;
   private editVisible: boolean;
   private vendorId: string;
+  private allVendors: Vendor[] = [];
+  private nameFilter='';
+  private typeFilter = '';
 
 
   constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private vendorService:MaterialvendorService) {
@@ -46,7 +49,17 @@ export class MaterialVendorComponent implements OnInit {
   phone: string;
   name: string;
 
+  filter():void{
+    this.vendors = [];
+    let self = this;
+    this.allVendors.forEach(vendor=>{
 
+      if((vendor.name.toLowerCase().includes(this.nameFilter.toLowerCase()) || this.nameFilter=='') && (vendor.type.toLowerCase().includes(this.typeFilter.toLowerCase()) || this.typeFilter=='')){
+        self.vendors.push(vendor);
+
+      }
+    })
+  }
   open(): void {
     this.visible = true;
   }
@@ -88,7 +101,9 @@ export class MaterialVendorComponent implements OnInit {
         currentVendor.id = vendor.key;
 
         self.vendors.push(currentVendor);
-      })
+        self.allVendors.push(currentVendor);
+      });
+
 
     });
   }
@@ -104,6 +119,15 @@ export class MaterialVendorComponent implements OnInit {
   }
   onUpdateVendor(){
     let self = this;
+    for (const i in this.createProviderForm.controls) {
+
+      this.createProviderForm.controls[i].markAsDirty();
+      this.createProviderForm.controls[i].updateValueAndValidity();
+      if(this.createProviderForm.controls[i].errors){
+        console.log('errors');
+        return;
+      }
+    }
     this.vendorToBeEdited = {id: this.vendorId, name:this.name,type:this.type,location:this.location,phone:this.phone} as Vendor;
     this.vendorService.updateVendor(this.vendorToBeEdited,function (success,message) {
       if(success){

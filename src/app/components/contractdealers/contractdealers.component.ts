@@ -24,6 +24,9 @@ export class ContractdealersComponent implements OnInit {
   public isLoggedIn = false;
   private editVisible: boolean;
   private dealerId: string;
+  private allContractDealers: ContractDealer[] = [];
+  private nameFilter: string = '';
+  private typeFilter: string = '';
   constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private dealerService:ContractdealerService) {
     this.userService.getLoginState().subscribe(loginStatus=>{
       this.isLoggedIn = loginStatus;
@@ -43,6 +46,17 @@ export class ContractdealersComponent implements OnInit {
     this.getDealers();
 
 
+  }
+  filter():void{
+    this.contractDealers = [];
+    let self = this;
+    this.allContractDealers.forEach(dealer=>{
+      console.log(dealer);
+      if((dealer.name.toLowerCase().includes(this.nameFilter.toLowerCase()) || this.nameFilter=='') && (dealer.type.includes(this.typeFilter) || this.typeFilter=='')){
+        self.contractDealers.push(dealer);
+
+      }
+    })
   }
   open(): void {
     this.visible = true;
@@ -86,6 +100,7 @@ export class ContractdealersComponent implements OnInit {
         currentdealer.id = dealer.key;
 
         self.contractDealers.push(currentdealer);
+        self.allContractDealers.push(currentdealer)
       })
 
     });
@@ -102,6 +117,15 @@ export class ContractdealersComponent implements OnInit {
   }
   onUpdateDealer(){
     let self = this;
+    for (const i in this.createProviderForm.controls) {
+
+      this.createProviderForm.controls[i].markAsDirty();
+      this.createProviderForm.controls[i].updateValueAndValidity();
+      if(this.createProviderForm.controls[i].errors){
+        console.log('errors');
+        return;
+      }
+    }
     this.dealerToBeEdited = {id: this.dealerId, name:this.name,type:this.type,receipt:this.receipt,phoneNo:this.phoneNo,price:this.price} as ContractDealer;
     this.dealerService.updateDealer(this.dealerToBeEdited,function (success,message) {
       if(success){
@@ -129,7 +153,7 @@ export class ContractdealersComponent implements OnInit {
     }
     let self = this;
     this.dealerService.postDealer(
-      {id: this.dealerId, name:this.name,type:this.type,receipt:this.receipt,phoneNo:this.phoneNo,price:this.price} as ContractDealer,function (success, message) {
+      { name:this.createProviderForm.controls.name.value,type:this.createProviderForm.controls.type.value,receipt:this.createProviderForm.controls.receipt.value,phoneNo:this.createProviderForm.controls.phoneNo.value,price:this.createProviderForm.controls.price.value} as ContractDealer,function (success, message) {
         if(success){
           self.getDealers();
           self.createNotification('success',message);

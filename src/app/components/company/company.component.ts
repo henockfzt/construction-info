@@ -11,14 +11,13 @@ import {UserService} from '../../service/user.service';
   styleUrls: ['./company.component.scss']
 })
 export class CompanyComponent implements OnInit {
-
-  data = ['Midroc','Teklebirhan Ambaye  ','Bamacon','Yotek ','Zamra','Sunshine ','Satcon'];
   companies:Company [] = [];
   createProviderForm:FormGroup;
   public isLoggedIn = false;
   private editVisible: boolean;
   private companyToBeEdited : Company;
   private companyId: string;
+  private allCompanies: Company [] = [];
 
   constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private constructionCompanyService:CompanyserviceService) {
     this.userService.getLoginState().subscribe(loginStatus=>{
@@ -38,12 +37,16 @@ export class CompanyComponent implements OnInit {
     this.getCompanies();
 
 
+
   }
   visible = false;
   companyGrade: string;
   companyName: string;
   companyType: string;
   companyPhone: string;
+  nameFilter='';
+  gradeFilter='';
+  typeFilter='';
 
 
   open(): void {
@@ -55,20 +58,34 @@ export class CompanyComponent implements OnInit {
     this.companyGrade = company.grade;
     this.companyPhone = company.phoneNo;
     this.companyName = company.name;
-
     this.editVisible = true;
-
   }
 
   close(): void {
     this.visible = false;
     this.editVisible = false;
   }
+  filter():void{
+
+    this.companies = [];
+    let self = this;
+    this.allCompanies.forEach(company=>{
+      console.log(this.nameFilter);
+      if((company.name == this.nameFilter || this.nameFilter=='') && (company.type == this.typeFilter || this.typeFilter=='')){
+        self.companies.push(company);
+      }
+
+
+
+    })
+
+  }
+
 
   showDeleteConfirm(company:Company): void {
     this.modal.confirm({
       nzTitle: 'Are you sure delete this task?',
-      nzContent: '<b style="color: red;">Some descriptions</b>',
+      nzContent: '<b style="color:red;">Some descriptions</b>',
       nzOkText: 'Yes',
       nzOkType: 'danger',
       nzOnOk: () => this.onDeleteCompany(company),
@@ -89,7 +106,10 @@ export class CompanyComponent implements OnInit {
         currentCompany.id = company.key;
 
         self.companies.push(currentCompany);
-      })
+      });
+      self.companies.forEach((company)=>{
+        self.allCompanies.push(company);
+      });
 
     });
   }

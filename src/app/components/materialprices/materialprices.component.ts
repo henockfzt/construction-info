@@ -22,6 +22,7 @@ export class MaterialpricesComponent implements OnInit {
   public isLoggedIn = false;
   private editVisible: boolean;
   private materialId: string;
+  private allMaterials: Material [] = [];
 
 
 
@@ -50,8 +51,22 @@ export class MaterialpricesComponent implements OnInit {
   materialName: string;
   materialUnit: string;
   materialUnitPrice: string;
+  priceRange = [10,100];
+  nameFilter='';
+
+  filter(){
+    this.materials = [];
+    let self = this;
+    this.allMaterials.forEach(material=>{
+      console.log(material.unitprice);
+      if((material.name == this.nameFilter || this.nameFilter=='') && ((this.priceRange[0] * 1000  < material.unitprice) && material.unitprice < this.priceRange[1] *1000)){
+        self.materials.push(material);
+      }
 
 
+
+    })
+  }
   open(): void {
     this.visible = true;
   }
@@ -82,7 +97,6 @@ export class MaterialpricesComponent implements OnInit {
 
   getMaterials(){
     let self=this;
-
     this.materialPriceService.getMaterials().once('value').then(function(materials){
       self.materials = [];
 
@@ -92,6 +106,7 @@ export class MaterialpricesComponent implements OnInit {
         currentMaterial.id = material.key;
 
         self.materials.push(currentMaterial);
+        self.allMaterials.push(currentMaterial);
       })
 
     });

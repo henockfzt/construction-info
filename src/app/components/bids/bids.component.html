@@ -1,77 +1,18 @@
-<h2>Bids</h2>
+<div id="top">
+  <h2>Bids</h2>
+  <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Bid</button>
+</div>
 <div>
+
 
   <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
     <label for="name"></label>
     <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
     <button nz-button nzType="primary" >Filter</button>
-    <button nz-button nzType="primary" (click)="showModal()" >Add New</button>
 
   </div>
 
 </div>
-<nz-modal [(nzVisible)]="isVisible" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-  <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
-    <nz-form-item>
-      <nz-form-label [nzSpan]="6" nzFor="city">City</nz-form-label>
-      <nz-form-control [nzSpan]="14" nzErrorTip="Please input your nickname!">
-        <input nz-input formControlName="city" type="text" id="city">
-      </nz-form-control>
-    </nz-form-item >
-    <nz-form-item>
-      <nz-form-label [nzSpan]="6" nzFor="email">Bid Security</nz-form-label>
-      <nz-form-control [nzSpan]="14">
-        <input nz-input formControlName="bidSecurity" type="number" id="bidSecurity">
-      </nz-form-control>
-    </nz-form-item ><nz-form-item>
-    <nz-form-label [nzSpan]="6" nzFor="email">Grade</nz-form-label>
-    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your nickname!">
-      <input nz-input formControlName="grade" type="number" id="grade">
-    </nz-form-control>
-  </nz-form-item >
-    <nz-form-item>
-      <nz-form-label [nzSpan]="6" nzFor="type">Type</nz-form-label>
-      <nz-form-control [nzSpan]="14" nzErrorTip="Please input your nickname!">
-        <input nz-input formControlName="type" type="text" id="type">
-      </nz-form-control>
-    </nz-form-item >
-    <nz-form-item>
-      <nz-form-label [nzSpan]="6" nzFor="email">Deadline</nz-form-label>
-      <nz-form-control [nzSpan]="14" nzErrorTip="Please input your nickname!">
-        <input nz-input formControlName="deadline" type="text" id="deadline">
-      </nz-form-control>
-    </nz-form-item >
-    <nz-form-item >
-      <nz-form-label [nzSpan]="6" nzFor="tel">Tel</nz-form-label>
-      <nz-form-control [nzSpan]="14" nzErrorTip="Please input your nickname!">
-        <input nz-input formControlName="tel" type="tel" id="tel">
-      </nz-form-control>
-    </nz-form-item >
-    <nz-form-item>
-      <nz-form-label [nzSpan]="6" nzFor="title">Title</nz-form-label>
-      <nz-form-control [nzSpan]="14" nzErrorTip="Please input your nickname!">
-        <input nz-input formControlName="title"  type="title" id="title" >
-      </nz-form-control>
-    </nz-form-item >
-
-    <nz-form-item>
-      <nz-form-control>
-
-        <!--<button nz-button class="login-form-button" [nzType]="'primary'">Log in</button>-->
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-  <!--<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">-->
-
-
-    <!--<nz-form-item nz-row class="register-area">-->
-      <!--<nz-form-control [nzSpan]="14" [nzOffset]="6">-->
-        <!--<button nz-button nzType="primary">Register</button>-->
-      <!--</nz-form-control>-->
-    <!--</nz-form-item>-->
-
-  <!--</form>-->
-</nz-modal>
 <nz-table #basicTable [nzData]="dataSet">
   <thead>
   <tr>
@@ -98,14 +39,174 @@
     <td>{{bid}}</td>
     <td><i nz-icon nzType="download" nzTheme="outline"></i><span>Download</span></td>
     <td>
-      <a>Edit </a>
+      <a (click)="edit(bid)">Edit </a>
       <nz-divider nzType="vertical"></nz-divider>
-      <a>Delete</a>
+      <a (click)="showDeleteConfirm(bid)">Delete</a>
     </td>
   </tr>
 
   </tbody>
 </nz-table>
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="720"
+  [nzVisible]="visible"
+  nzTitle="Create Contract Dealer"
+  (nzOnClose)="close()">
+  <form nz-form [formGroup]="createProviderForm">
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Title</nz-form-label>
+          <nz-form-control nzErrorTip="Bid title is required">
+            <input formControlName="title" nz-input placeholder="Please enter bid title" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>City</nz-form-label>
+          <nz-form-control nzErrorTip="City is required">
+            <input formControlName="city" nz-input placeholder="Please enter city" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Type</nz-form-label>
+          <nz-form-control  nzErrorTip="Grade is required">
+            <input  formControlName="type" nz-input placeholder="Please enter bid type" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Telephone Number</nz-form-label>
+          <nz-form-control nzErrorTip="Telephone Number is required">
+            <input formControlName="tel" nz-input placeholder="Please enter if telephone number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8">
+
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Grade</nz-form-label>
+          <nz-form-control nzErrorTip="Grade is required">
+            <input  formControlName="grade" nz-input placeholder="Please enter bid grade" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Deadline</nz-form-label>
+          <nz-form-control nzErrorTip="Price is required">
+            <input  formControlName="deadline" nz-input placeholder="Please enter deadline" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Bid Security</nz-form-label>
+          <nz-form-control nzErrorTip="Bid Security is required">
+            <input formControlName="bidSecurity" nz-input placeholder="Please enter bid security" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="postBid()" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+  </form>
+</nz-drawer>
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="720"
+  [nzVisible]="editVisible"
+  nzTitle="Edit Company"
+  (nzOnClose)="close()">
+  <form nz-form [formGroup]="createProviderForm">
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Title</nz-form-label>
+          <nz-form-control nzErrorTip="Bid title is required">
+            <input [(ngModel)]="title" formControlName="title" nz-input placeholder="Please enter bid title" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>City</nz-form-label>
+          <nz-form-control nzErrorTip="City is required">
+            <input [(ngModel)] = "city" formControlName="city" nz-input placeholder="Please enter city" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Type</nz-form-label>
+          <nz-form-control  nzErrorTip="Grade is required">
+            <input [(ngModel)]="type" formControlName="type" nz-input placeholder="Please enter bid type" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Telephone Number</nz-form-label>
+          <nz-form-control nzErrorTip="Telephone Number is required">
+            <input [(ngModel)]="tel" formControlName="tel" nz-input placeholder="Please enter if telephone number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8">
+
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Grade</nz-form-label>
+          <nz-form-control nzErrorTip="Grade is required">
+            <input [(ngModel)]="grade" formControlName="grade" nz-input placeholder="Please enter bid grade" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Deadline</nz-form-label>
+          <nz-form-control nzErrorTip="Price is required">
+            <input [(ngModel)]="deadline" formControlName="deadline" nz-input placeholder="Please enter deadline" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Bid Security</nz-form-label>
+          <nz-form-control nzErrorTip="City is required">
+            <input [(ngModel)] = "bidSecurity" formControlName="bidSecurity" nz-input placeholder="Please enter bid security" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <button type="button" (click)="closeEdit()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="onUpdateBids()" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+  </form>
+</nz-drawer>
 <ng-template #mytmp>
   <p>Hola</p>
 </ng-template>

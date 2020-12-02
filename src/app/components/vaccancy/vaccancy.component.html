@@ -1,4 +1,8 @@
-<h1>Vacancies</h1>
+
+<div id="top">
+  <h2>Vacancies</h2>
+  <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Vacancies</button>
+</div>
 <div *ngFor="let vacancy of vacancies"  class="question">
   <div class="question-stats">
     <div class="div-stat">
@@ -25,9 +29,144 @@
         <nz-tag   id="tag" [nzColor]="'lightblue'">{{vacancy.companyName}}</nz-tag>
       </div>
 
-      <span class="question-time-stamp">a few seconds ago</span>
+
     </div>
+
+  </div>
+  <div style="margin: auto">
+    <a (click)="edit(vacancy)">Edit</a>
+    <nz-divider nzType="vertical"></nz-divider>
+    <a (click)="showDeleteConfirm(vacancy)" >Delete</a>
   </div>
 
 </div>
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="720"
+  [nzVisible]="visible"
+  nzTitle="Create Vacancy"
+  (nzOnClose)="close()">
+  <form nz-form [formGroup]="createProviderForm">
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Job Title</nz-form-label>
+          <nz-form-control nzErrorTip="Job title is required">
+            <input formControlName="title" nz-input placeholder="Please enter job title" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Company Name</nz-form-label>
+          <nz-form-control nzErrorTip="Job title is required">
+            <input formControlName="companyName" nz-input placeholder="Please enter company name" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Experience</nz-form-label>
+          <nz-form-control  nzErrorTip="Experience is required">
+            <input formControlName="experience" nz-input placeholder="Please enter experience" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Location</nz-form-label>
+          <nz-form-control nzErrorTip="Salary is required">
+            <input formControlName="salary" nz-input placeholder="Please enter salary" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8">
+
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Quantity</nz-form-label>
+          <nz-form-control nzErrorTip="Quantity is required">
+            <input formControlName="quantity" nz-input placeholder="Please enter quantity" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="postVacancy()" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+  </form>
+</nz-drawer>
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="720"
+  [nzVisible]="editVisible"
+  nzTitle="Edit Company"
+  (nzOnClose)="close()">
+  <form nz-form [formGroup]="createProviderForm">
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Job Title</nz-form-label>
+          <nz-form-control nzErrorTip="Job title is required">
+            <input [(ngModel)]="title" formControlName="title" nz-input placeholder="Please enter job title" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Company Name</nz-form-label>
+          <nz-form-control nzErrorTip="Job title is required">
+            <input [(ngModel)]="companyName" formControlName="companyName" nz-input placeholder="Please enter company name" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Experience</nz-form-label>
+          <nz-form-control  nzErrorTip="Experience is required">
+            <input [(ngModel)]="experience" formControlName="experience" nz-input placeholder="Please enter experience" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Salary</nz-form-label>
+          <nz-form-control nzErrorTip="Salary is required">
+            <input [(ngModel)]="salary" formControlName="salary" nz-input placeholder="Please enter salary" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8">
+
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Quantity</nz-form-label>
+          <nz-form-control nzErrorTip="Quantity is required">
+            <input [(ngModel)]="quantity" formControlName="quantity" nz-input placeholder="Please enter quantity" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <button type="button" (click)="closeEdit()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="onUpdateVacancy()" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+
+  </form>
+</nz-drawer>
 

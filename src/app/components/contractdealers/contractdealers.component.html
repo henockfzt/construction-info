@@ -1,12 +1,16 @@
-<h2>Contract Dealers</h2>
+
+<div id="top">
+  <h2>Contract Dealers</h2>
+  <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Dealer</button>
+</div>
+<div>
 <div>
 
   <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
     <label for="name"></label>
-    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
-    <input id="price" style="flex:0.4;" nz-input placeholder="Price" [(ngModel)]="value" />
-    <input id="type" style="flex:0.4;" nz-input placeholder="Type" [(ngModel)]="value" />
-    <button nz-button nzType="primary" >Filter</button>
+    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="nameFilter" />
+    <input id="type" style="flex:0.4;" nz-input placeholder="Type" [(ngModel)]="typeFilter" />
+    <button nz-button nzType="primary" (click)="filter()">Filter</button>
   </div>
 
 </div>
@@ -151,14 +155,7 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-      <div nz-col nzSpan="12">
-        <nz-form-item>
-          <nz-form-label>Phone Number</nz-form-label>
-          <nz-form-control nzErrorTip="Price is required">
-            <input [(ngModel)]="price" formControlName="phoneNo" nz-input placeholder="Please enter dealer price" />
-          </nz-form-control>
-        </nz-form-item>
-      </div>
+
 
     </div>
 

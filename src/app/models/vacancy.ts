@@ -4,4 +4,5 @@ export interface Vacancy {
   salary;
   quantity;
   companyName;
+  id;
 }

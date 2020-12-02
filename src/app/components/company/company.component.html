@@ -7,10 +7,10 @@
 
   <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
     <label for="name"></label>
-    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
-    <input id="experience" style="flex:0.4;" nz-input placeholder="Region" [(ngModel)]="value" />
-    <input id="speciality" style="flex:0.4;" nz-input placeholder="Sub City" [(ngModel)]="value" />
-    <button nz-button nzType="primary" >Filter</button>
+    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="nameFilter" />
+    <input id="grade" style="flex:0.4;" nz-input placeholder="Region" [(ngModel)]="gradeFilter" />
+    <input id="type" style="flex:0.4;" nz-input placeholder="Type" [(ngModel)]="typeFilter" />
+    <button nz-button nzType="primary" (click)="filter()">Filter</button>
   </div>
 
 </div>

@@ -13,15 +13,45 @@ export class BidService {
       firebase.initializeApp(environment.firebaseConfig);
     }
   }
-  getBids():Observable<SnapshotAction<any>[]>{
-    return this.db.list('Bids').snapshotChanges();
-  }
-  postBid(bid:Bid){
+  getBids(){
     return firebase.database().ref().child('Bids');
-    // const bidsReference=firebase.database().ref();
-    // const key=bidsReference.child('Bids').push().key;
-    // return bidsReference.child('Bids'). child(key).set(bid);
+  }
+  postBid(bid:Bid,callback){
+    return firebase.database().ref('Bids/').push(bid,function (error) {
+      if(error){
+        callback(false, 'There was a problem adding the Bid');
+        console.log('There was a problem adding the Bid')
+      }
+      else{
+        callback(true,'Bid added successfully');
+        console.log('Bid added successfully')
+      }
+    });
+  }
 
+  deleteBid(bid:Bid,callback) {
+    return firebase.database().ref('Bids/' + bid.id).remove().then(function () {
+      callback(true,'Bid deleted successfully');
+      console.log('deleted')
+    },function () {
+      callback(false,'There was a problem deleting the Bid');
+      console.log('There was a problem deleting the Bid')
+    });
+
+  }
+
+  updateBid(bid: Bid , callback) {
+
+    return firebase.database().ref('Bids/'+bid.id).set(bid,function (error) {
+      if(error){
+        callback(false, 'There was a problem editing the bid');
+        console.log('There was a problem editing the bid')
+      }
+      else{
+        callback(true,'Bid edited successfully');
+        console.log('Bid edited successfully')
+      }
+    });
   }
 
 }

@@ -6,6 +6,7 @@ export class Bid{
   tel;
   title;
   type;
+  id;
   constructor(title,type,grade,tel,deadline,bidSecurity){
     this.title=title;
     this.bidSecurity=bidSecurity;

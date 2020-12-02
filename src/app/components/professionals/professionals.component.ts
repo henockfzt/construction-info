@@ -19,6 +19,10 @@ export class ProfessionalsComponent implements OnInit {
   public isLoggedIn = false;
   private editVisible: boolean;
   private professionalId: string;
+  private allProfessionals: Professional [] = [];
+  private nameFilter='';
+  private specialityFilter='';
+  private experienceFilter='';
 
 
   constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private professionalService:ProfessionalService) {
@@ -45,7 +49,20 @@ export class ProfessionalsComponent implements OnInit {
   educationalStatus: string;
   phoneNo: string;
   name: string;
+  educationalStatusFilter='';
+  filter(){
+    this.professionals = [];
+    let self = this;
+    this.allProfessionals.forEach(professional=>{
+      console.log(professional.name.includes(this.nameFilter));
+      if((professional.name.includes(this.nameFilter) || this.nameFilter=='') && (professional.speciality.includes(this.specialityFilter) || this.specialityFilter=='') && (professional.educationalStatus.includes(this.educationalStatusFilter) || this.educationalStatusFilter=='')){
+        self.professionals.push(professional);
+      }
 
+
+
+    })
+  }
 
   open(): void {
     this.visible = true;
@@ -88,6 +105,7 @@ export class ProfessionalsComponent implements OnInit {
         currentProfessional.id = professional.key;
 
         self.professionals.push(currentProfessional);
+        self.allProfessionals.push(currentProfessional);
       })
 
     });
@@ -104,6 +122,15 @@ export class ProfessionalsComponent implements OnInit {
   }
   onUpdateProfessional(){
     let self = this;
+    for (const i in this.createProviderForm.controls) {
+
+      this.createProviderForm.controls[i].markAsDirty();
+      this.createProviderForm.controls[i].updateValueAndValidity();
+      if(this.createProviderForm.controls[i].errors){
+        console.log('errors');
+        return;
+      }
+    }
     this.professionalToBeEdited = {id: this.professionalId, name:this.name,educationalStatus:this.educationalStatus,speciality:this.speciality,phoneNo:this.phoneNo} as Professional;
     this.professionalService.updateProfessional(this.professionalToBeEdited,function (success,message) {
       if(success){
@@ -113,7 +140,7 @@ export class ProfessionalsComponent implements OnInit {
         self.close();
       }
       else{
-        console.log('error')
+        console.log('error');
         self.createNotification('error',message);
         self.close();
       }

@@ -37,6 +37,7 @@ import {AngularFireModule} from '@angular/fire';
 import {config} from 'rxjs/index';
 import { LoginComponent } from './components/login/login.component';
 import {UserService} from './service/user.service';
+import {WoredaserviceService} from './service/woredaservice.service';
 
 registerLocaleData(en);
 
@@ -73,7 +74,7 @@ registerLocaleData(en);
   providers: [{ provide: NZ_I18N,
     useValue: en_US,
 
-  },AngularFireDatabase,UserService, CompanyserviceService,VacancyserviceService,BidService,ProfessionalService,MaterialpriceService,ContractdealerService,RentalmachineService,NewsService,MaterialvendorService],
+  },AngularFireDatabase,UserService, WoredaserviceService, CompanyserviceService,VacancyserviceService,BidService,ProfessionalService,MaterialpriceService,ContractdealerService,RentalmachineService,NewsService,MaterialvendorService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

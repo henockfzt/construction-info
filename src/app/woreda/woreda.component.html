@@ -1,4 +1,7 @@
-<h2>Woreda</h2>
+<div id="top">
+  <h2>Woreda</h2>
+  <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Woreda</button>
+</div>
 <div>
 
   <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
@@ -22,19 +25,124 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let data of data">
-    <td>{{data}}</td>
-    <td>Addis Ababa</td>
-    <td>Bole</td>
-    <td>+251251113558</td>
+  <tr *ngFor="let woreda of woredas">
+    <td>{{woreda.no}}</td>
+    <td>{{woreda.region}}</td>
+    <td>{{woreda.subcity}}</td>
+    <td>{{woreda.phone}}</td>
 
 
 
     <td>
-      <a>Edit 一 {{data.name}}</a>
+      <a (click)="edit(woreda)">Edit</a>
       <nz-divider nzType="vertical"></nz-divider>
-      <a>Delete</a>
+      <a (click)="showDeleteConfirm(woreda)">Delete</a>
     </td>
   </tr>
   </tbody>
 </nz-table>
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="720"
+  [nzVisible]="visible"
+  nzTitle="Create Woreda"
+  (nzOnClose)="close()">
+  <form nz-form [formGroup]="createProviderForm">
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Woreda No</nz-form-label>
+          <nz-form-control nzErrorTip="Woreda No is required">
+            <input formControlName="no" nz-input placeholder="Please enter Woreda No" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Sub City</nz-form-label>
+          <nz-form-control nzErrorTip="Subcity is required">
+            <input formControlName="subcity" nz-input placeholder="Please enter subcity" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Region</nz-form-label>
+          <nz-form-control  nzErrorTip="Region is required">
+            <input formControlName="region" nz-input placeholder="Please enter region" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Phone Number</nz-form-label>
+          <nz-form-control nzErrorTip="Salary is required">
+            <input formControlName="phone" nz-input placeholder="Please enter phone number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="postWoreda()" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+  </form>
+</nz-drawer>
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="720"
+  [nzVisible]="editVisible"
+  nzTitle="Edit Company"
+  (nzOnClose)="close()">
+  <form nz-form [formGroup]="createProviderForm">
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Woreda No</nz-form-label>
+          <nz-form-control nzErrorTip="Woreda No is required">
+            <input [(ngModel)]="no" formControlName="no" nz-input placeholder="Please enter Woreda No" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Sub City</nz-form-label>
+          <nz-form-control nzErrorTip="Subcity is required">
+            <input [(ngModel)]="subcity" formControlName="subcity" nz-input placeholder="Please enter subcity" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Region</nz-form-label>
+          <nz-form-control  nzErrorTip="Region is required">
+            <input [(ngModel)]="region" formControlName="region" nz-input placeholder="Please enter region" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Phone Number</nz-form-label>
+          <nz-form-control nzErrorTip="Salary is required">
+            <input [(ngModel)]="phone" formControlName="phone" nz-input placeholder="Please enter phone number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button type="button" (click)="closeEdit()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="onUpdateWoreda()" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+
+  </form>
+</nz-drawer>

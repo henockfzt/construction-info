@@ -6,12 +6,11 @@
 
   <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
     <label for="name"></label>
-    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
-    <input id="experience" style="flex:0.4;" nz-input placeholder="Experience" [(ngModel)]="value" />
-    <input id="speciality" style="flex:0.4;" nz-input placeholder="Speciality" [(ngModel)]="value" />
-    <button nz-button nzType="primary" >Filter</button>
+    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="nameFilter" />
+    <input id="speciality" style="flex:0.4;" nz-input placeholder="Speciality" [(ngModel)]="specialityFilter" />
+    <input id="education" style="flex:0.4;" nz-input placeholder="Educational Status" [(ngModel)]="educationalStatusFilter" />
+    <button nz-button nzType="primary" (click)="filter()">Filter</button>
   </div>
-
 </div>
 <nz-table #basicTable [nzData]="dataSet">
   <thead>
@@ -20,7 +19,6 @@
     <th>Name</th>
     <th>Educational Status</th>
     <th>Speciality</th>
-    <th>Experience</th>
     <th>Phone No.</th>
     <th>Actions</th>
 
@@ -31,7 +29,6 @@
     <td>{{professional.name}}</td>
     <td>{{professional.educationalStatus}}</td>
     <td>{{professional.speciality}}</td>
-    <td>{{professional.experience}}</td>
     <td>{{professional.phoneNo}}</td>
 
 

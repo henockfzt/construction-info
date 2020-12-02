@@ -1,4 +1,3 @@
-
 <div id="top">
   <h2>Material Vendors</h2>
   <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Vendor</button>
@@ -7,8 +6,9 @@
 
   <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
     <label for="name"></label>
-    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
-    <button nz-button nzType="primary" >Filter</button>
+    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="nameFilter" />
+    <input id="type" style="flex:0.4;" nz-input placeholder="Type" [(ngModel)]="typeFilter" />
+    <button nz-button nzType="primary" (click)="filter()">Filter</button>
   </div>
 
 </div>
@@ -22,7 +22,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let vendor of vendors">
+  <tr *ngFor="let vendor of vendors.slice().reverse()">
     <td>{{vendor.name}}</td>
     <td>{{vendor.type}}</td>
     <td>HQ Mekelle</td>
@@ -147,3 +147,4 @@
     </div>
   </form>
 </nz-drawer>
+
