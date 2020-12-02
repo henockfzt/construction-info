@@ -61,6 +61,7 @@ export class ProfessionalsComponent implements OnInit {
 
   close(): void {
     this.visible = false;
+    this.editVisible = false;
   }
 
   showDeleteConfirm(professional:Professional): void {

@@ -33,10 +33,138 @@
 
 
     <td>
-      <a>Edit </a>
+      <a (click)="edit(dealer)">Edit </a>
       <nz-divider nzType="vertical"></nz-divider>
-      <a>Delete</a>
+      <a (click)="showDeleteConfirm(dealer)">Delete</a>
     </td>
   </tr>
   </tbody>
 </nz-table>
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="720"
+  [nzVisible]="visible"
+  nzTitle="Create Contract Dealer"
+  (nzOnClose)="close()">
+  <form nz-form [formGroup]="createProviderForm">
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Contract Dealer Name</nz-form-label>
+          <nz-form-control nzErrorTip="Dealer name is required">
+            <input formControlName="name" nz-input placeholder="Please enter Contract Dealer name" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Type</nz-form-label>
+          <nz-form-control  nzErrorTip="Type is required">
+            <input formControlName="type" nz-input placeholder="Please enter dealer type" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Location</nz-form-label>
+          <nz-form-control nzErrorTip="Receipt is required">
+            <input formControlName="receipt" nz-input placeholder="Please enter receipt" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8">
+
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Phone Number</nz-form-label>
+          <nz-form-control nzErrorTip="Phone Number is required">
+            <input formControlName="phoneNo" nz-input placeholder="Please enter dealer phone number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Price</nz-form-label>
+          <nz-form-control nzErrorTip="Price Number is required">
+            <input formControlName="price" nz-input placeholder="Please enter price" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="postDealer()" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+  </form>
+</nz-drawer>
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="720"
+  [nzVisible]="editVisible"
+  nzTitle="Edit Company"
+  (nzOnClose)="close()">
+  <form nz-form [formGroup]="createProviderForm">
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Company Name</nz-form-label>
+          <nz-form-control nzErrorTip="Company Name is required">
+            <input [(ngModel)]="name" formControlName="name" nz-input placeholder="Please enter dealer name" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Type</nz-form-label>
+          <nz-form-control  nzErrorTip="Grade is required">
+            <input [(ngModel)]="type" formControlName="type" nz-input placeholder="Please enter dealer type" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Receipt</nz-form-label>
+          <nz-form-control nzErrorTip="Type is required">
+            <input [(ngModel)]="receipt" formControlName="receipt" nz-input placeholder="Please enter if dealer has receipt" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8">
+
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Phone Number</nz-form-label>
+          <nz-form-control nzErrorTip="Phone Number is required">
+            <input [(ngModel)]="phoneNo" formControlName="phoneNo" nz-input placeholder="Please enter dealer phone number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Phone Number</nz-form-label>
+          <nz-form-control nzErrorTip="Price is required">
+            <input [(ngModel)]="price" formControlName="phoneNo" nz-input placeholder="Please enter dealer price" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <button type="button" (click)="closeEdit()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="onUpdateDealer()" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+  </form>
+</nz-drawer>

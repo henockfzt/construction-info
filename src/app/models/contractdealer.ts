@@ -4,4 +4,5 @@ export interface ContractDealer{
   type;
   receipt;
   phoneNo;
+  id;
 }

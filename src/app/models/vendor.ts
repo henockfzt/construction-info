@@ -3,5 +3,5 @@ export interface Vendor {
   type;
   location;
   phone;
-
+  id;
 }

@@ -62,6 +62,7 @@ export class CompanyComponent implements OnInit {
 
   close(): void {
     this.visible = false;
+    this.editVisible = false;
   }
 
   showDeleteConfirm(company:Company): void {
