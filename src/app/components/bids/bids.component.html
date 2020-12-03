@@ -6,14 +6,14 @@
 
 
   <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
-    <label for="name"></label>
-    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
-    <button nz-button nzType="primary" >Filter</button>
+    <label for="title"></label>
+    <input id="title" style="flex:0.4;" nz-input placeholder="Title" [(ngModel)]="titleFilter" />
+    <button nz-button nzType="primary" (click)="filter()">Filter</button>
 
   </div>
 
 </div>
-<nz-table #basicTable [nzData]="dataSet">
+<nz-table #basicTable [nzData]="['']">
   <thead>
   <tr>
     <th>Title</th>
@@ -23,7 +23,6 @@
     <th>Grade</th>
     <th>Deadline</th>
     <th>Bid Security</th>
-    <th>Bid fee</th>
     <th>Bid Document</th>
   </tr>
   </thead>
@@ -36,8 +35,7 @@
     <td>{{bid.grade}}</td>
     <td>{{bid.deadline}}</td>
     <td>{{bid.bidSecurity}}</td>
-    <td>{{bid}}</td>
-    <td><i nz-icon nzType="download" nzTheme="outline"></i><span>Download</span></td>
+    <td><a [href]="bid.docurl"><i nz-icon nzType="download" nzTheme="outline"></i><span>Download</span></a></td>
     <td>
       <a (click)="edit(bid)">Edit </a>
       <nz-divider nzType="vertical"></nz-divider>
@@ -59,7 +57,7 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Title</nz-form-label>
-          <nz-form-control nzErrorTip="Bid title is required">
+          <nz-form-control nzErrorTip="A valid Bid title is required">
             <input formControlName="title" nz-input placeholder="Please enter bid title" />
           </nz-form-control>
         </nz-form-item>
@@ -67,7 +65,7 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>City</nz-form-label>
-          <nz-form-control nzErrorTip="City is required">
+          <nz-form-control nzErrorTip="A valid City is required">
             <input formControlName="city" nz-input placeholder="Please enter city" />
           </nz-form-control>
         </nz-form-item>
@@ -78,7 +76,7 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Type</nz-form-label>
-          <nz-form-control  nzErrorTip="Grade is required">
+          <nz-form-control  nzErrorTip="A valid Grade is required">
             <input  formControlName="type" nz-input placeholder="Please enter bid type" />
           </nz-form-control>
         </nz-form-item>
@@ -86,8 +84,8 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Telephone Number</nz-form-label>
-          <nz-form-control nzErrorTip="Telephone Number is required">
-            <input formControlName="tel" nz-input placeholder="Please enter if telephone number" />
+          <nz-form-control nzErrorTip="A valid Telephone Number is required">
+            <input type="tel" pattern="[0-9]{10}" formControlName="tel" nz-input placeholder="Please enter if telephone number" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -97,15 +95,15 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Grade</nz-form-label>
-          <nz-form-control nzErrorTip="Grade is required">
-            <input  formControlName="grade" nz-input placeholder="Please enter bid grade" />
+          <nz-form-control nzErrorTip="A valid Grade is required">
+            <input type="number"  formControlName="grade" nz-input placeholder="Please enter bid grade" />
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Deadline</nz-form-label>
-          <nz-form-control nzErrorTip="Price is required">
+          <nz-form-control nzErrorTip="A valid Price is required">
             <input  formControlName="deadline" nz-input placeholder="Please enter deadline" />
           </nz-form-control>
         </nz-form-item>
@@ -113,11 +111,29 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Bid Security</nz-form-label>
-          <nz-form-control nzErrorTip="Bid Security is required">
-            <input formControlName="bidSecurity" nz-input placeholder="Please enter bid security" />
+          <nz-form-control nzErrorTip="A valid id Security is required">
+            <input type="number" formControlName="bidSecurity" nz-input placeholder="Please enter bid security" />
           </nz-form-control>
         </nz-form-item>
       </div>
+
+        <div nz-col nzSpan="24">
+          <nz-form-item>
+
+            <nz-form-label>{{uploadProgress >0?"Uploading":"Upload Image"}}</nz-form-label>
+            <nz-progress
+              *ngIf="uploadProgress>0"
+              nzType="circle"
+              [nzPercent]="uploadProgress"
+              [nzStrokeColor]="{ '0%': '#108ee9', '50%': '#2db7f5', '100%': '#87d068' }"
+            ></nz-progress>
+
+
+            <nz-form-control *ngIf="uploadProgress<1" nzErrorTip="Please upload an Image">
+              <input accept=".pdf" formControlName="image" (change)="detectFile($event)" type="file"  nz-input placeholder="Image" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
 
     </div>
 
@@ -139,7 +155,7 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Title</nz-form-label>
-          <nz-form-control nzErrorTip="Bid title is required">
+          <nz-form-control nzErrorTip="A valid Bid title is required">
             <input [(ngModel)]="title" formControlName="title" nz-input placeholder="Please enter bid title" />
           </nz-form-control>
         </nz-form-item>
@@ -147,7 +163,7 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>City</nz-form-label>
-          <nz-form-control nzErrorTip="City is required">
+          <nz-form-control nzErrorTip="A valid City is required">
             <input [(ngModel)] = "city" formControlName="city" nz-input placeholder="Please enter city" />
           </nz-form-control>
         </nz-form-item>
@@ -158,16 +174,16 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Type</nz-form-label>
-          <nz-form-control  nzErrorTip="Grade is required">
-            <input [(ngModel)]="type" formControlName="type" nz-input placeholder="Please enter bid type" />
+          <nz-form-control  nzErrorTip="A valid Grade is required">
+            <input type="number" [(ngModel)]="type" formControlName="type" nz-input placeholder="Please enter bid type" />
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Telephone Number</nz-form-label>
-          <nz-form-control nzErrorTip="Telephone Number is required">
-            <input [(ngModel)]="tel" formControlName="tel" nz-input placeholder="Please enter if telephone number" />
+          <nz-form-control nzErrorTip="A valid Telephone Number is required">
+            <input type="tel" pattern="[0-9]{10}" [(ngModel)]="tel" formControlName="tel" nz-input placeholder="Please enter if telephone number" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -177,7 +193,7 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Grade</nz-form-label>
-          <nz-form-control nzErrorTip="Grade is required">
+          <nz-form-control nzErrorTip="A valid Grade is required">
             <input [(ngModel)]="grade" formControlName="grade" nz-input placeholder="Please enter bid grade" />
           </nz-form-control>
         </nz-form-item>
@@ -194,7 +210,7 @@
         <nz-form-item>
           <nz-form-label>Bid Security</nz-form-label>
           <nz-form-control nzErrorTip="City is required">
-            <input [(ngModel)] = "bidSecurity" formControlName="bidSecurity" nz-input placeholder="Please enter bid security" />
+            <input type="number" [(ngModel)] = "bidSecurity" formControlName="bidSecurity" nz-input placeholder="Please enter bid security" />
           </nz-form-control>
         </nz-form-item>
       </div>

@@ -12,7 +12,7 @@
   </div>
 
 </div>
-<nz-table #basicTable [nzData]="dataSet">
+<nz-table #basicTable [nzData]="['']">
   <thead>
   <tr>
     <th>Name</th>
@@ -66,7 +66,7 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Location</nz-form-label>
-          <nz-form-control nzErrorTip="Location is required">
+          <nz-form-control nzErrorTip="A valid Location is required">
             <input formControlName="location" nz-input placeholder="Please enter vendor location" />
           </nz-form-control>
         </nz-form-item>
@@ -77,8 +77,8 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Phone Number</nz-form-label>
-          <nz-form-control nzErrorTip="Phone Number is required">
-            <input formControlName="phone" nz-input placeholder="Please enter vendor phone number" />
+          <nz-form-control nzErrorTip="A valid Phone Number is required">
+            <input type="tel" pattern="[0-9]{10}" formControlName="phone" nz-input placeholder="Please enter vendor phone number" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -134,7 +134,7 @@
         <nz-form-item>
           <nz-form-label>Phone Number</nz-form-label>
           <nz-form-control nzErrorTip="Phone Number is required">
-            <input [(ngModel)]="phone" formControlName="phone" nz-input placeholder="Please enter vendor phone number" />
+            <input type="tel" pattern="[0-9]{10}" [(ngModel)]="phone" formControlName="phone" nz-input placeholder="Please enter vendor phone number" />
           </nz-form-control>
         </nz-form-item>
       </div>

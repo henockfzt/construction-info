@@ -5,6 +5,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {UserService} from '../../service/user.service';
 import {BidService} from '../../service/bid.service';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-bids',
@@ -28,6 +29,11 @@ export class BidsComponent implements OnInit {
   public isLoggedIn = false;
   private editVisible: boolean;
   private bidId: string;
+  private titleFilter='';
+  private allBids: Bid[] = [];
+  uploadProgress: number = 0;
+  private selectedFile: any;
+  private fileDetected=false;
   constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private bidService:BidService) {
     this.userService.getLoginState().subscribe(loginStatus=>{
       this.isLoggedIn = loginStatus;
@@ -45,10 +51,22 @@ export class BidsComponent implements OnInit {
       tel: [null, [Validators.required]],
       title: [null, [Validators.required]],
       type: [null, [Validators.required]],
+      image:[null,[Validators.required]]
     });
     this.getBids();
 
 
+  }
+  filter():void{
+    this.bids = [];
+    let self = this;
+    this.allBids.forEach(bid=>{
+      console.log(bid);
+      if((bid.title.toLowerCase().includes(this.titleFilter.toLowerCase()) || this.titleFilter=='')){
+        self.bids.push(bid);
+
+      }
+    })
   }
   open(): void {
     this.visible = true;
@@ -94,6 +112,7 @@ export class BidsComponent implements OnInit {
         currentBid.id = bid.key;
 
         self.bids.push(currentBid);
+        self.allBids.push(currentBid);
       })
 
     });
@@ -134,7 +153,13 @@ export class BidsComponent implements OnInit {
       }
     })
   }
+  detectFile($event) {
+    this.selectedFile=$event.target.files.item(0);
+
+    this.fileDetected=true;
+  }
   postBid(){
+
     for (const i in this.createProviderForm.controls) {
 
       this.createProviderForm.controls[i].markAsDirty();
@@ -143,25 +168,56 @@ export class BidsComponent implements OnInit {
         console.log('errors');
         return;
       }
+      if(!this.fileDetected){
+        this.createNotification('error','Please upload the bid document');
+        return;
+      }
     }
-    let self = this;
-    this.bidService.postBid(
-      { bidSecurity:this.createProviderForm.controls.bidSecurity.value,deadline:this.createProviderForm.controls.deadline.value,city:this.createProviderForm.controls.city.value,grade:this.createProviderForm.controls.grade.value,tel:this.createProviderForm.controls.tel.value, title:this.createProviderForm.controls.title.value, type:this.createProviderForm.controls.type.value} as Bid,function (success, message) {
-        if(success){
-          self.getBids();
-          self.createNotification('success',message);
-          self.close();
-        }
-        else{
-          self.createNotification('error',message)
-        }
+    console.log('outsie')
+    let storage = firebase.storage();
+    let storageRef = storage.ref();
+    let spaceRef = storageRef.child('Bids');
+    console.log(this.selectedFile)
+    let uploadTask = spaceRef.put(this.selectedFile);
+    let self=this;
+    console.log('outsie')
+    uploadTask.on('state_changed', function(snapshot){
+      let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      self.uploadProgress=progress;
+      console.log('inside')
+      switch (snapshot.state) {
+        case firebase.storage.TaskState.PAUSED: // or 'paused'
+          console.log('Upload is paused');
+          break;
+        case firebase.storage.TaskState.RUNNING: // or 'running'
+          console.log('Upload is running');
+          break;
+      }
+    }, function(error) {
+    }, function() {
+      uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        console.log('File available at', downloadURL);
+        self.bidService.postBid(
+          { bidSecurity:self.createProviderForm.controls.bidSecurity.value,deadline:self.createProviderForm.controls.deadline.value,city:self.createProviderForm.controls.city.value,grade:self.createProviderForm.controls.grade.value,tel:self.createProviderForm.controls.tel.value, title:self.createProviderForm.controls.title.value, type:self.createProviderForm.controls.type.value,docurl:downloadURL} as Bid,function (success, message) {
+            if(success){
+              self.getBids();
+              self.createNotification('success',message);
+              self.close();
+            }
+            else{
+              self.createNotification('error',message)
+            }
 
-      })
+          })
+
+      });
+    });
+
   }
   createNotification(type: string,message): void {
     this.notification.create(
       type,
-      'Notification Title', message    );
+      'Notification', message    );
   }
 
 

@@ -160,7 +160,7 @@ export class CompanyComponent implements OnInit {
   createNotification(type: string): void {
     this.notification.create(
       type,
-      'Notification Title',
+      'Notification',
       'This is the content of the notification. This is the content of the notification. This is the content of the notification.'
     );
   }

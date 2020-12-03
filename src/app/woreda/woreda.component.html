@@ -5,15 +5,14 @@
 <div>
 
   <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
-    <label for="name"></label>
-    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
-    <input id="experience" style="flex:0.4;" nz-input placeholder="Region" [(ngModel)]="value" />
-    <input id="speciality" style="flex:0.4;" nz-input placeholder="Sub City" [(ngModel)]="value" />
-    <button nz-button nzType="primary" >Filter</button>
+
+    <input id="experience" style="flex:0.4;" nz-input placeholder="Region" [(ngModel)]="regionFilter" />
+    <input id="speciality" style="flex:0.4;" nz-input placeholder="Sub City" [(ngModel)]="subcityFilter" />
+    <button nz-button nzType="primary" (click)="filter()">Filter</button>
   </div>
 
 </div>
-<nz-table #basicTable [nzData]="dataSet">
+<nz-table #basicTable [nzData]="['']">
   <thead>
   <tr>
     <th>Woreda No</th>
@@ -21,7 +20,6 @@
     <th>Sub City</th>
     <th>Phone No.</th>
     <th>Actions</th>
-
   </tr>
   </thead>
   <tbody>
@@ -54,7 +52,7 @@
         <nz-form-item>
           <nz-form-label>Woreda No</nz-form-label>
           <nz-form-control nzErrorTip="Woreda No is required">
-            <input formControlName="no" nz-input placeholder="Please enter Woreda No" />
+            <input type="number" formControlName="no" nz-input placeholder="Please enter Woreda No" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -80,8 +78,8 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Phone Number</nz-form-label>
-          <nz-form-control nzErrorTip="Salary is required">
-            <input formControlName="phone" nz-input placeholder="Please enter phone number" />
+          <nz-form-control nzErrorTip="A valid phone number is required">
+            <input type="tel" pattern="[0-9]{10}" formControlName="phone" nz-input placeholder="Please enter phone number" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -106,7 +104,7 @@
         <nz-form-item>
           <nz-form-label>Woreda No</nz-form-label>
           <nz-form-control nzErrorTip="Woreda No is required">
-            <input [(ngModel)]="no" formControlName="no" nz-input placeholder="Please enter Woreda No" />
+            <input type="number" [(ngModel)]="no" formControlName="no" nz-input placeholder="Please enter Woreda No" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -133,7 +131,7 @@
         <nz-form-item>
           <nz-form-label>Phone Number</nz-form-label>
           <nz-form-control nzErrorTip="Salary is required">
-            <input [(ngModel)]="phone" formControlName="phone" nz-input placeholder="Please enter phone number" />
+            <input type="tel" pattern="[0-9]{10}" [(ngModel)]="phone" formControlName="phone" nz-input placeholder="Please enter phone number" />
           </nz-form-control>
         </nz-form-item>
       </div>

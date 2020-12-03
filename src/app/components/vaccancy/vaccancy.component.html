@@ -72,15 +72,15 @@
         <nz-form-item>
           <nz-form-label>Experience</nz-form-label>
           <nz-form-control  nzErrorTip="Experience is required">
-            <input formControlName="experience" nz-input placeholder="Please enter experience" />
+            <input type="number" formControlName="experience" nz-input placeholder="Please enter experience" />
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col nzSpan="12">
         <nz-form-item>
-          <nz-form-label>Location</nz-form-label>
+          <nz-form-label>Salary</nz-form-label>
           <nz-form-control nzErrorTip="Salary is required">
-            <input formControlName="salary" nz-input placeholder="Please enter salary" />
+            <input type="number" formControlName="salary" nz-input placeholder="Please enter salary" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -91,7 +91,7 @@
         <nz-form-item>
           <nz-form-label>Quantity</nz-form-label>
           <nz-form-control nzErrorTip="Quantity is required">
-            <input formControlName="quantity" nz-input placeholder="Please enter quantity" />
+            <input type="number" formControlName="quantity" nz-input placeholder="Please enter quantity" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -136,7 +136,7 @@
         <nz-form-item>
           <nz-form-label>Experience</nz-form-label>
           <nz-form-control  nzErrorTip="Experience is required">
-            <input [(ngModel)]="experience" formControlName="experience" nz-input placeholder="Please enter experience" />
+            <input type="number" [(ngModel)]="experience" formControlName="experience" nz-input placeholder="Please enter experience" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -144,7 +144,7 @@
         <nz-form-item>
           <nz-form-label>Salary</nz-form-label>
           <nz-form-control nzErrorTip="Salary is required">
-            <input [(ngModel)]="salary" formControlName="salary" nz-input placeholder="Please enter salary" />
+            <input type="number" [(ngModel)]="salary" formControlName="salary" nz-input placeholder="Please enter salary" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -155,7 +155,7 @@
         <nz-form-item>
           <nz-form-label>Quantity</nz-form-label>
           <nz-form-control nzErrorTip="Quantity is required">
-            <input [(ngModel)]="quantity" formControlName="quantity" nz-input placeholder="Please enter quantity" />
+            <input type="number" [(ngModel)]="quantity" formControlName="quantity" nz-input placeholder="Please enter quantity" />
           </nz-form-control>
         </nz-form-item>
       </div>

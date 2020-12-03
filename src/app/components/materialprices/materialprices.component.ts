@@ -165,7 +165,7 @@ export class MaterialpricesComponent implements OnInit {
   createNotification(type: string,message): void {
     this.notification.create(
       type,
-      'Notification Title', message    );
+      'Notification', message    );
   }
 
 

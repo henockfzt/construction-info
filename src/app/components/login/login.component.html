@@ -3,7 +3,7 @@
     <h2>Login using E-mail</h2>
     <form nz-form [formGroup]="emailForm" class="login-form" (ngSubmit)="submitEmailForm()">
       <nz-form-item>
-        <nz-form-control nzErrorTip="Please input your username!">
+        <nz-form-control nzErrorTip="Please input your email!">
           <nz-input-group nzPrefixIcon="user">
             <input type="text" nz-input formControlName="email" placeholder="Email" />
           </nz-input-group>
@@ -18,7 +18,7 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-control style="width:300px;">
-          <a class="login-form-forgot" class="login-form-forgot">Forgot password</a>
+
           <button nz-button class="login-form-button" [nzType]="'primary'">Log in</button>
         </nz-form-control>
       </nz-form-item>

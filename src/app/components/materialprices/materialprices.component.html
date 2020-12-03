@@ -15,7 +15,7 @@
 
 </div>
 
-<nz-table #basicTable [nzData]="dataSet">
+<nz-table #basicTable [nzData]="['']">
   <thead>
   <tr>
     <th>Name</th>
@@ -82,7 +82,7 @@
         <nz-form-item>
           <nz-form-label>Unit Price</nz-form-label>
           <nz-form-control nzErrorTip="Unit Price is required">
-            <input formControlName="unitprice" nz-input placeholder="Please enter company unit price" />
+            <input type="number" formControlName="unitprice" nz-input placeholder="Please enter company unit price" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -138,7 +138,7 @@
         <nz-form-item>
           <nz-form-label>Unit Price</nz-form-label>
           <nz-form-control nzErrorTip="Phone Number is required">
-            <input [(ngModel)]="materialUnitPrice" formControlName="unitprice" nz-input placeholder="Please enter company phone number" />
+            <input type="number" [(ngModel)]="materialUnitPrice" formControlName="unitprice" nz-input placeholder="Please enter company phone number" />
           </nz-form-control>
         </nz-form-item>
       </div>

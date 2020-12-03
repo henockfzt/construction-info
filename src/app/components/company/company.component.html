@@ -14,7 +14,7 @@
   </div>
 
 </div>
-<nz-table #basicTable [nzData]="dataSet">
+<nz-table #basicTable [nzData]="['']">
   <thead>
   <tr>
     <th>Company Name</th>
@@ -56,8 +56,8 @@
       <div nz-col nzSpan="24">
         <nz-form-item>
           <nz-form-label>Company Name</nz-form-label>
-          <nz-form-control nzErrorTip="Company Name is required">
-            <input formControlName="name" nz-input placeholder="Please enter company name" />
+          <nz-form-control nzErrorTip="A valid Company Name is required">
+            <input  formControlName="name" nz-input placeholder="Please enter company name" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -67,15 +67,15 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Grade</nz-form-label>
-          <nz-form-control  nzErrorTip="Grade is required">
-            <input formControlName="grade" nz-input placeholder="Please enter company grade" />
+          <nz-form-control  nzErrorTip="A valid Grade is required">
+            <input type="number" formControlName="grade" nz-input placeholder="Please enter company grade" />
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Type</nz-form-label>
-          <nz-form-control nzErrorTip="Type is required">
+          <nz-form-control nzErrorTip="A valid Type is required">
             <input formControlName="type" nz-input placeholder="Please enter company type" />
           </nz-form-control>
         </nz-form-item>
@@ -86,8 +86,8 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Phone Num</nz-form-label>
-          <nz-form-control nzErrorTip="Phone Number is required">
-            <input formControlName="phone" nz-input placeholder="Please enter company phone number" />
+          <nz-form-control nzErrorTip="A valid phone number is required">
+            <input type="tel" pattern="[0-9]{10}" formControlName="phone" nz-input placeholder="Please enter company phone number" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -112,7 +112,7 @@
       <div nz-col nzSpan="24">
         <nz-form-item>
           <nz-form-label>Company Name</nz-form-label>
-          <nz-form-control nzErrorTip="Company Name is required">
+          <nz-form-control nzErrorTip="A valid Company Name is required">
             <input [(ngModel)]="companyName" formControlName="name" nz-input placeholder="Please enter company name" />
           </nz-form-control>
         </nz-form-item>
@@ -123,7 +123,7 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Grade</nz-form-label>
-          <nz-form-control  nzErrorTip="Grade is required">
+          <nz-form-control  nzErrorTip="A valid Grade is required">
             <input [(ngModel)]="companyGrade" formControlName="grade" nz-input placeholder="Please enter company grade" />
           </nz-form-control>
         </nz-form-item>
@@ -131,8 +131,8 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Type</nz-form-label>
-          <nz-form-control nzErrorTip="Type is required">
-            <input [(ngModel)]="companyType" formControlName="type" nz-input placeholder="Please enter company type" />
+          <nz-form-control nzErrorTip="A valid Type is required">
+            <input type="tel" pattern="[0-9]{10}" [(ngModel)]="companyType" formControlName="type" nz-input placeholder="Please enter company type" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -142,8 +142,8 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Phone Num</nz-form-label>
-          <nz-form-control nzErrorTip="Phone Number is required">
-            <input [(ngModel)]="companyPhone" formControlName="phone" nz-input placeholder="Please enter company phone number" />
+          <nz-form-control nzErrorTip="Phone Enter a valid phone number">
+            <input type="tel" pattern="[0-9]{10}" [(ngModel)]="companyPhone" formControlName="phone" nz-input placeholder="Please enter company phone number" />
           </nz-form-control>
         </nz-form-item>
       </div>

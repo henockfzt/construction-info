@@ -12,7 +12,7 @@
     <button nz-button nzType="primary" (click)="filter()">Filter</button>
   </div>
 </div>
-<nz-table #basicTable [nzData]="dataSet">
+<nz-table #basicTable [nzData]="['']">
   <thead>
 
   <tr>
@@ -85,7 +85,7 @@
 
       <div nz-col nzSpan="12">
         <nz-form-item>
-          <nz-form-label>Unit Price</nz-form-label>
+          <nz-form-label>Phone Number</nz-form-label>
           <nz-form-control nzErrorTip="Phone number is required">
             <input formControlName="phoneNo" nz-input placeholder="Please enter phone number" />
           </nz-form-control>

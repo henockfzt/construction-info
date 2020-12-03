@@ -18,6 +18,9 @@ export class WoredaComponent implements OnInit {
   public isLoggedIn = false;
   private editVisible: boolean;
   private woredaId: string;
+  private allWoredas: Woreda[] = [];
+  private subcityFilter='';
+  private regionFilter='';
 
 
   constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private woredaService:WoredaserviceService) {
@@ -76,6 +79,17 @@ export class WoredaComponent implements OnInit {
       nzOnCancel: () => console.log('Cancel')
     });
   }
+  filter():void{
+    this.woredas = [];
+    let self = this;
+    this.allWoredas.forEach(woreda=>{
+      console.log(woreda);
+      if((woreda.region.toLowerCase().includes(this.regionFilter.toLowerCase()) || this.regionFilter=='') && (woreda.subcity.toLowerCase().includes(this.subcityFilter.toLowerCase()) || this.subcityFilter=='')){
+        self.woredas.push(woreda);
+
+      }
+    })
+  }
 
   getWoredas(){
     let self=this;
@@ -88,6 +102,7 @@ export class WoredaComponent implements OnInit {
         const currentWoreda = woreda.toJSON() as Woreda;
         currentWoreda.id = woreda.key;
         self.woredas.push(currentWoreda);
+        self.allWoredas.push(currentWoreda);
 
       });
 
@@ -157,7 +172,7 @@ export class WoredaComponent implements OnInit {
   createNotification(type: string,message): void {
     this.notification.create(
       type,
-      'Notification Title', message    );
+      'Notification', message    );
   }
 
 
