@@ -1,4 +1,7 @@
-<h1>Rental Machines</h1>
+<div id="top">
+  <h2>Rental Machines</h2>
+  <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Machine</button>
+</div>
 <div>
 
   <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
@@ -13,14 +16,134 @@
 
 </div>
 <div id="div-cards">
-  <nz-card class="card-items" style="width:400px;" *ngFor="let machine of rentalMachines"  [nzCover]="coverTemplate">
+  <nz-card class="card-items" style="width:400px;" *ngFor="let machine of machines"  [nzCover]="coverTemplate">
+
+    <img width="100%"  alt="example" src="{{machine.img}}" />
+    <div style="display:flex; justify-content: space-evenly;">
+      <button *ngIf="isLoggedIn" (click)="edit(machine)" style="flex:1" nz-button nzType="dashed"><i nz-icon nzType="edit" style="color:cornflowerblue;"></i>Edit</button>
+      <button *ngIf="isLoggedIn" style="flex:1" nz-button nzType="dashed"><i nz-icon nzType="delete" style="color:red;"></i>Delete</button>
+    </div>
     <nz-card-meta
       nzTitle="{{machine.name}}"
-      nzDescription="ma"></nz-card-meta>
+      nzDescription="{{machine.price}}/Day"></nz-card-meta>
+    <h4 style="float: right;">0938829937<i nz-icon nzType="phone" nzTheme="fill" style="color:cornflowerblue;"></i></h4>
   </nz-card>
 </div>
 
+<ng-template  #coverTemplate>
 
-<ng-template #coverTemplate>
-  <img alt="example" src="../assets/loder.png" />
 </ng-template>
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="720"
+  [nzVisible]="visible"
+  nzTitle="Create Rental Machine"
+  (nzOnClose)="close()">
+  <form nz-form [formGroup]="createProviderForm">
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Machine Name</nz-form-label>
+          <nz-form-control nzErrorTip="Machine name is required">
+            <input formControlName="name" nz-input placeholder="Please enter  Machine name" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div nz-row [nzGutter]="8">
+
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Phone Number</nz-form-label>
+          <nz-form-control nzErrorTip="Phone Number is required">
+            <input formControlName="phone" nz-input placeholder="Please enter contact phone number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Price</nz-form-label>
+          <nz-form-control nzErrorTip="Price is required">
+            <input formControlName="price" nz-input placeholder="Please enter price" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+    <div nz-col nzSpan="24">
+      <nz-form-item>
+
+        <nz-form-label>{{uploadProgress >0?"Uploading":"Upload Image"}}</nz-form-label>
+        <nz-progress
+          *ngIf="uploadProgress>0"
+          nzType="circle"
+          [nzPercent]="uploadProgress"
+          [nzStrokeColor]="{ '0%': '#108ee9', '50%': '#2db7f5', '100%': '#87d068' }"
+        ></nz-progress>
+
+
+        <nz-form-control *ngIf="uploadProgress<1" nzErrorTip="Please upload an Image">
+          <input accept=".jpg" formControlName="image" (change)="detectFile($event)" type="file" nz-input
+                 placeholder="Image"/>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div class="footer">
+      <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="postMachine()" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+  </form>
+</nz-drawer>
+<nz-drawer
+  [nzBodyStyle]="{ overflow: 'auto' }"
+  [nzMaskClosable]="true"
+  [nzWidth]="720"
+  [nzVisible]="editVisible"
+  nzTitle="Edit Company"
+  (nzOnClose)="close()">
+  <form nz-form [formGroup]="createProviderForm">
+    <div nz-row [nzGutter]="8">
+      <div nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-label>Company Name</nz-form-label>
+          <nz-form-control nzErrorTip="Company Name is required">
+            <input [(ngModel)]="name" formControlName="name" nz-input placeholder="Please enter dealer name" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+    </div>
+
+    <div nz-row [nzGutter]="8">
+
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Phone Number</nz-form-label>
+          <nz-form-control nzErrorTip="Phone Number is required">
+            <input [(ngModel)]="phone" formControlName="phone" nz-input placeholder="Please enter contact phone number" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <div nz-col nzSpan="12">
+        <nz-form-item>
+          <nz-form-label>Phone Number</nz-form-label>
+          <nz-form-control nzErrorTip="Price is required">
+            <input [(ngModel)]="price" formControlName="phone" nz-input placeholder="Please enter price" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+
+    </div>
+
+    <div class="footer">
+      <button type="button" (click)="closeEdit()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
+      <button type="button" (click)="onUpdateMachines()" class="ant-btn ant-btn-primary"><span>Submit</span></button>
+    </div>
+  </form>
+</nz-drawer>
+
