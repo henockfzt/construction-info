@@ -1,6 +1,6 @@
 <div id="top">
   <h2>Bids</h2>
-  <button *ngIf="isLoggedIn" nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle"
+  <button *ngIf="isLoggedIn && !isWoreda" nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle"
                                                                             nzTheme="outline"></i>Add Bid
   </button>
 </div>
@@ -38,7 +38,7 @@
     <td>{{bid.deadline}}</td>
     <td>{{bid.bidSecurity}}</td>
     <td><a [href]="bid.docurl"><i nz-icon nzType="download" nzTheme="outline"></i><span>Download</span></a></td>
-    <td>
+    <td *ngIf="isLoggedIn && !isWoreda">
       <a (click)="edit(bid)">Edit </a>
       <nz-divider nzType="vertical"></nz-divider>
       <a (click)="showDeleteConfirm(bid)">Delete</a>
@@ -99,7 +99,7 @@
         <nz-form-item>
           <nz-form-label>Grade</nz-form-label>
           <nz-form-control nzErrorTip="A valid Grade is required">
-            <input type="number" formControlName="grade" nz-input placeholder="Please enter bid grade"/>
+            <input min="1" type="number" formControlName="grade" nz-input placeholder="Please enter bid grade"/>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -115,7 +115,7 @@
         <nz-form-item>
           <nz-form-label>Bid Security</nz-form-label>
           <nz-form-control nzErrorTip="A valid id Security is required">
-            <input type="number" formControlName="bidSecurity" nz-input placeholder="Please enter bid security"/>
+            <input min="1" type="number" formControlName="bidSecurity" nz-input placeholder="Please enter bid security"/>
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -178,8 +178,8 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Type</nz-form-label>
-          <nz-form-control nzErrorTip="A valid Grade is required">
-            <input type="number" [(ngModel)]="type" formControlName="type" nz-input
+          <nz-form-control nzErrorTip="A valid Type is required">
+            <input  [(ngModel)]="type" formControlName="type" nz-input
                    placeholder="Please enter bid type"/>
           </nz-form-control>
         </nz-form-item>

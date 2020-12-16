@@ -4,6 +4,7 @@ import {MaterialvendorService} from '../../service/materialvendor.service';
 import {Vendor} from '../../models/vendor';
 import {UserService} from '../../service/user.service';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-machinevendors',
@@ -22,13 +23,27 @@ export class MaterialVendorComponent implements OnInit {
   private allVendors: Vendor[] = [];
   private nameFilter='';
   private typeFilter = '';
+  public isWoreda: any;
 
 
-  constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private vendorService:MaterialvendorService) {
-    this.userService.getLoginState().subscribe(loginStatus=>{
-      this.isLoggedIn = loginStatus;
+  constructor(private router:Router,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private vendorService:MaterialvendorService) {
+    this.router.events.subscribe(
+      (event: Event) => {
+        if (event instanceof NavigationEnd) {
+          console.log('called');
+          this.isLoggedIn = this.userService.getLoginStatus();
+          this.userService.getLoginState().subscribe(loginStatus=>{
+            this.isLoggedIn = loginStatus;
+            console.log('called' + this.isLoggedIn);
 
-    });
+          });
+          this.userService.getIsWoreda().subscribe(email=>{
+            this.isWoreda = email.includes('@gov.et');
+            console.log(this.isWoreda)
+
+          });
+        }
+      });
   }
 
   ngOnInit() {
@@ -40,8 +55,6 @@ export class MaterialVendorComponent implements OnInit {
       type: [null, [Validators.required]],
     });
     this.getVendors();
-
-
   }
   visible = false;
   location: string;

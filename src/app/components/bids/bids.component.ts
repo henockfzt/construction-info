@@ -6,6 +6,7 @@ import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {UserService} from '../../service/user.service';
 import {BidService} from '../../service/bid.service';
 import * as firebase from 'firebase';
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-bids',
@@ -34,11 +35,25 @@ export class BidsComponent implements OnInit {
   uploadProgress: number = 0;
   private selectedFile: any;
   private fileDetected=false;
-  constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private bidService:BidService) {
+  constructor(private router: Router,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private bidService:BidService) {
     this.userService.getLoginState().subscribe(loginStatus=>{
       this.isLoggedIn = loginStatus;
 
     });
+    this.router.events.subscribe(
+      (event: Event) => {
+        if (event instanceof NavigationEnd) {
+          console.log('called');
+          this.isLoggedIn = this.userService.getLoginStatus();
+          this.userService.getLoginState().subscribe(loginStatus=>{
+            this.isLoggedIn = loginStatus;
+            console.log('called' + this.isLoggedIn);
+
+
+          });
+
+        }
+      });
   }
 
   ngOnInit() {

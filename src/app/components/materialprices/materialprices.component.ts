@@ -5,6 +5,7 @@ import {MaterialpriceService} from '../../service/materialprice.service';
 import {Material} from '../../models/material';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../service/user.service';
+import {NavigationEnd, Router} from '@angular/router';
 
 
 
@@ -23,15 +24,29 @@ export class MaterialpricesComponent implements OnInit {
   private editVisible: boolean;
   private materialId: string;
   private allMaterials: Material [] = [];
+  private isWoreda: any;
 
 
 
 
-  constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private materialPriceService:MaterialpriceService) {
-    this.userService.getLoginState().subscribe(loginStatus=>{
-      this.isLoggedIn = loginStatus;
+  constructor(private router:Router,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private materialPriceService:MaterialpriceService) {
+    this.router.events.subscribe(
+      (event: Event) => {
+        if (event instanceof NavigationEnd) {
+          console.log('called');
+          this.isLoggedIn = this.userService.getLoginStatus();
+          this.userService.getLoginState().subscribe(loginStatus=>{
+            this.isLoggedIn = loginStatus;
+            console.log('called' + this.isLoggedIn);
 
-    });
+          });
+          this.userService.getIsWoreda().subscribe(email=>{
+            this.isWoreda = email.includes('@gov.et');
+            console.log(this.isWoreda)
+
+          });
+        }
+      });
   }
 
   ngOnInit() {
@@ -59,12 +74,9 @@ export class MaterialpricesComponent implements OnInit {
     let self = this;
     this.allMaterials.forEach(material=>{
       console.log(material.unitprice);
-      if((material.name == this.nameFilter || this.nameFilter=='') && ((this.priceRange[0] * 1000  < material.unitprice) && material.unitprice < this.priceRange[1] *1000)){
+      if((material.name.toLowerCase().includes(this.nameFilter.toLowerCase()) || this.nameFilter=='') && ((this.priceRange[0] * 1000  < material.unitprice) && material.unitprice < this.priceRange[1] *1000)){
         self.materials.push(material);
       }
-
-
-
     })
   }
   open(): void {

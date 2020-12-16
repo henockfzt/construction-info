@@ -1,6 +1,6 @@
 <div id="top">
   <h2>Material Prices</h2>
-  <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Material</button>
+  <button *ngIf="isLoggedIn && !isWoreda"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Material</button>
 </div>
 <div>
 
@@ -22,7 +22,7 @@
     <th>Type</th>
     <th>Unit</th>
     <th>Unit Price</th>
-    <th>Actions</th>
+    <th *ngIf="isLoggedIn && !isWoreda">Actions</th>
   </tr>
   </thead>
   <tbody>
@@ -31,7 +31,7 @@
     <td>{{material.type}}</td>
     <td>{{material.unit}}</td>
     <td>{{material.unitprice}}</td>
-    <td>
+    <td *ngIf="isLoggedIn && !isWoreda">
       <a (click)="edit(material)">Edit</a>
       <nz-divider nzType="vertical"></nz-divider>
       <a (click)="showDeleteConfirm(material)">Delete</a>
@@ -51,7 +51,7 @@
       <div nz-col nzSpan="24">
         <nz-form-item>
           <nz-form-label>Material Name</nz-form-label>
-          <nz-form-control nzErrorTip="Material is required">
+          <nz-form-control nzErrorTip="A valid Material is required">
             <input formControlName="name" nz-input placeholder="Please enter material name" />
           </nz-form-control>
         </nz-form-item>
@@ -62,7 +62,7 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Type</nz-form-label>
-          <nz-form-control  nzErrorTip="Type is required">
+          <nz-form-control  nzErrorTip="A valid Type is required">
             <input formControlName="type" nz-input placeholder="Please enter company type" />
           </nz-form-control>
         </nz-form-item>
@@ -70,7 +70,7 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Unit</nz-form-label>
-          <nz-form-control nzErrorTip="Unit is required">
+          <nz-form-control nzErrorTip="A valid Unit is required">
             <input formControlName="unit" nz-input placeholder="Please enter company unit" />
           </nz-form-control>
         </nz-form-item>
@@ -81,8 +81,8 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Unit Price</nz-form-label>
-          <nz-form-control nzErrorTip="Unit Price is required">
-            <input type="number" formControlName="unitprice" nz-input placeholder="Please enter company unit price" />
+          <nz-form-control nzErrorTip="A valid Unit Price is required">
+            <input min="1" type="number" formControlName="unitprice" nz-input placeholder="Please enter company unit price" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -100,14 +100,14 @@
   [nzMaskClosable]="true"
   [nzWidth]="720"
   [nzVisible]="editVisible"
-  nzTitle="Edit Company"
+  nzTitle="Edit Material"
   (nzOnClose)="close()">
   <form nz-form [formGroup]="createProviderForm">
     <div nz-row [nzGutter]="8">
       <div nz-col nzSpan="24">
         <nz-form-item>
-          <nz-form-label>Company Name</nz-form-label>
-          <nz-form-control nzErrorTip="Company Name is required">
+          <nz-form-label>Material Name</nz-form-label>
+          <nz-form-control nzErrorTip="A valid Material Name is required">
             <input [(ngModel)]="materialName" formControlName="name" nz-input placeholder="Please enter company name" />
           </nz-form-control>
         </nz-form-item>
@@ -118,16 +118,16 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Type</nz-form-label>
-          <nz-form-control  nzErrorTip="Grade is required">
-            <input [(ngModel)]="materialType" formControlName="type" nz-input placeholder="Please enter company grade" />
+          <nz-form-control  nzErrorTip="A valid Type is required">
+            <input [(ngModel)]="materialType" formControlName="type" nz-input placeholder="Please enter company type" />
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Unit</nz-form-label>
-          <nz-form-control nzErrorTip="Type is required">
-            <input [(ngModel)]="materialUnit" formControlName="unit" nz-input placeholder="Please enter company type" />
+          <nz-form-control nzErrorTip="A valid Unit is required">
+            <input [(ngModel)]="materialUnit" formControlName="unit" nz-input placeholder="Please enter company unit" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -137,8 +137,8 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Unit Price</nz-form-label>
-          <nz-form-control nzErrorTip="Phone Number is required">
-            <input type="number" [(ngModel)]="materialUnitPrice" formControlName="unitprice" nz-input placeholder="Please enter company phone number" />
+          <nz-form-control nzErrorTip="A valid Price is required">
+            <input min="1" type="number" [(ngModel)]="materialUnitPrice" formControlName="unitprice" nz-input placeholder="Please enter Price" />
           </nz-form-control>
         </nz-form-item>
       </div>

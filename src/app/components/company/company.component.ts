@@ -4,6 +4,7 @@ import {Company} from '../../models/company';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {UserService} from '../../service/user.service';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-company',
@@ -14,16 +15,31 @@ export class CompanyComponent implements OnInit {
   companies:Company [] = [];
   createProviderForm:FormGroup;
   public isLoggedIn = false;
+  public isWoreda = false;
   private editVisible: boolean;
   private companyToBeEdited : Company;
   private companyId: string;
   private allCompanies: Company [] = [];
+  private regionFilter='';
 
-  constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private constructionCompanyService:CompanyserviceService) {
-    this.userService.getLoginState().subscribe(loginStatus=>{
-      this.isLoggedIn = loginStatus;
+  constructor(private router:Router,private route: ActivatedRoute,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private constructionCompanyService:CompanyserviceService) {
+    this.router.events.subscribe(
+      (event: Event) => {
+        if (event instanceof NavigationEnd) {
+          console.log('called');
+          this.isLoggedIn = this.userService.getLoginStatus();
+          this.userService.getLoginState().subscribe(loginStatus=>{
+            this.isLoggedIn = loginStatus;
+            console.log('called' + this.isLoggedIn);
 
-    });
+          });
+          this.userService.getIsWoreda().subscribe(email=>{
+            this.isWoreda = email.includes('@gov.et');
+            console.log(this.isWoreda)
+
+          });
+        }
+      });
   }
 
   ngOnInit() {
@@ -35,6 +51,7 @@ export class CompanyComponent implements OnInit {
       phone: [null, [Validators.required]],
     });
     this.getCompanies();
+
 
 
 
@@ -71,7 +88,7 @@ export class CompanyComponent implements OnInit {
     let self = this;
     this.allCompanies.forEach(company=>{
       console.log(this.nameFilter);
-      if((company.name == this.nameFilter || this.nameFilter=='') && (company.type == this.typeFilter || this.typeFilter=='')){
+      if((company.name.toLowerCase().includes(this.nameFilter.toLowerCase()) || this.nameFilter=='') && (company.type.toLowerCase().includes(this.typeFilter.toLowerCase()) || this.typeFilter=='' )&& (company.grade == this.gradeFilter) || this.gradeFilter==''){
         self.companies.push(company);
       }
 

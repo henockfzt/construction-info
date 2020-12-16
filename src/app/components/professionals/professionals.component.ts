@@ -4,6 +4,7 @@ import {ProfessionalService} from '../../service/professional.service';
 import {UserService} from '../../service/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-professionals',
@@ -23,13 +24,27 @@ export class ProfessionalsComponent implements OnInit {
   private nameFilter='';
   private specialityFilter='';
   private experienceFilter='';
+  public isWoreda: any;
 
 
-  constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private professionalService:ProfessionalService) {
-    this.userService.getLoginState().subscribe(loginStatus=>{
-      this.isLoggedIn = loginStatus;
+  constructor(private router:Router,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private professionalService:ProfessionalService) {
+    this.router.events.subscribe(
+      (event: Event) => {
+        if (event instanceof NavigationEnd) {
+          console.log('called');
+          this.isLoggedIn = this.userService.getLoginStatus();
+          this.userService.getLoginState().subscribe(loginStatus=>{
+            this.isLoggedIn = loginStatus;
+            console.log('called' + this.isLoggedIn);
 
-    });
+          });
+          this.userService.getIsWoreda().subscribe(email=>{
+            this.isWoreda = email.includes('@gov.et');
+            console.log(this.isWoreda)
+
+          });
+        }
+      });
   }
 
   ngOnInit() {
@@ -55,7 +70,7 @@ export class ProfessionalsComponent implements OnInit {
     let self = this;
     this.allProfessionals.forEach(professional=>{
       console.log(professional.name.includes(this.nameFilter));
-      if((professional.name.includes(this.nameFilter) || this.nameFilter=='') && (professional.speciality.includes(this.specialityFilter) || this.specialityFilter=='') && (professional.educationalStatus.includes(this.educationalStatusFilter) || this.educationalStatusFilter=='')){
+      if((professional.name.toLowerCase().includes(this.nameFilter.toLowerCase()) || this.nameFilter=='') && (professional.speciality.toLowerCase().includes(this.specialityFilter.toLowerCase()) || this.specialityFilter=='') && (professional.educationalStatus.toLowerCase().includes(this.educationalStatusFilter.toLowerCase()) || this.educationalStatusFilter=='')){
         self.professionals.push(professional);
       }
 

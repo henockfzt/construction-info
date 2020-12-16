@@ -38,6 +38,7 @@ import {config} from 'rxjs/index';
 import { LoginComponent } from './components/login/login.component';
 import {UserService} from './service/user.service';
 import {WoredaserviceService} from './service/woredaservice.service';
+import {RouterModule} from '@angular/router';
 
 registerLocaleData(en);
 

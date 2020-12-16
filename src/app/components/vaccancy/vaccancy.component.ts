@@ -6,6 +6,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../service/user.service';
 
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-vaccancy',
@@ -20,13 +21,27 @@ export class VaccancyComponent implements OnInit {
   public isLoggedIn = false;
   private editVisible: boolean;
   private vacancyId: string;
+  public isWoreda: any;
 
 
-  constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private vacancyService:VacancyserviceService) {
-    this.userService.getLoginState().subscribe(loginStatus=>{
-      this.isLoggedIn = loginStatus;
+  constructor(private router:Router,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private vacancyService:VacancyserviceService) {
+    this.router.events.subscribe(
+      (event: Event) => {
+        if (event instanceof NavigationEnd) {
+          console.log('called');
+          this.isLoggedIn = this.userService.getLoginStatus();
+          this.userService.getLoginState().subscribe(loginStatus=>{
+            this.isLoggedIn = loginStatus;
+            console.log('called' + this.isLoggedIn);
 
-    });
+          });
+          this.userService.getIsWoreda().subscribe(email=>{
+            this.isWoreda = email.includes('@gov.et');
+            console.log(this.isWoreda)
+
+          });
+        }
+      });
   }
 
   ngOnInit() {

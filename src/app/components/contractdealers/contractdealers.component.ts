@@ -4,6 +4,7 @@ import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserService} from '../../service/user.service';
 import {ContractdealerService} from '../../service/contractdealer.service';
+import {NavigationEnd, Router} from '@angular/router';
 
 
 @Component({
@@ -27,11 +28,26 @@ export class ContractdealersComponent implements OnInit {
   private allContractDealers: ContractDealer[] = [];
   private nameFilter: string = '';
   private typeFilter: string = '';
-  constructor(private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private dealerService:ContractdealerService) {
-    this.userService.getLoginState().subscribe(loginStatus=>{
-      this.isLoggedIn = loginStatus;
+  public isWoreda: any;
 
-    });
+  constructor(private router:Router,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private dealerService:ContractdealerService) {
+    this.router.events.subscribe(
+      (event: Event) => {
+        if (event instanceof NavigationEnd) {
+          console.log('called');
+          this.isLoggedIn = this.userService.getLoginStatus();
+          this.userService.getLoginState().subscribe(loginStatus=>{
+            this.isLoggedIn = loginStatus;
+            console.log('called' + this.isLoggedIn);
+
+          });
+          this.userService.getIsWoreda().subscribe(email=>{
+            this.isWoreda = email.includes('@gov.et');
+            console.log(this.isWoreda)
+
+          });
+        }
+      });
   }
 
   ngOnInit() {
@@ -40,7 +56,7 @@ export class ContractdealersComponent implements OnInit {
       name: [null, [Validators.required]],
       phoneNo: [null, [Validators.required]],
       type: [null, [Validators.required]],
-      price: [null, [Validators.required]],
+      price: [null],
       receipt: [null, [Validators.required]],
     });
     this.getDealers();
@@ -52,7 +68,7 @@ export class ContractdealersComponent implements OnInit {
     let self = this;
     this.allContractDealers.forEach(dealer=>{
       console.log(dealer);
-      if((dealer.name.toLowerCase().includes(this.nameFilter.toLowerCase()) || this.nameFilter=='') && (dealer.type.includes(this.typeFilter) || this.typeFilter=='')){
+      if((dealer.name.toLowerCase().includes(this.nameFilter.toLowerCase()) || this.nameFilter=='') && (dealer.type.toLowerCase().includes(this.typeFilter.toLowerCase()) || this.typeFilter=='')){
         self.contractDealers.push(dealer);
 
       }

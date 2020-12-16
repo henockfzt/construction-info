@@ -30,7 +30,7 @@ export class RentalmachineService {
   }
 
   deleteMachine(machine:Rentalmachine,callback) {
-    return firebase.database().ref('RetnalMachine/' + machine.id).remove().then(function () {
+    return firebase.database().ref('RentalMachine/' + machine.id).remove().then(function () {
       callback(true,'Machine deleted successfully');
       console.log('deleted')
     },function () {

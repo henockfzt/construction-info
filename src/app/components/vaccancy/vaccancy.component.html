@@ -1,7 +1,7 @@
 
 <div id="top">
   <h2>Vacancies</h2>
-  <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Vacancies</button>
+  <button *ngIf="isLoggedIn && !isWoreda"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Vacancies</button>
 </div>
 <div *ngFor="let vacancy of vacancies"  class="question">
   <div class="question-stats">
@@ -28,12 +28,10 @@
       <div>
         <nz-tag   id="tag" [nzColor]="'lightblue'">{{vacancy.companyName}}</nz-tag>
       </div>
-
-
     </div>
 
   </div>
-  <div style="margin: auto">
+  <div *ngIf="isLoggedIn && !isWoreda" style="margin: auto">
     <a (click)="edit(vacancy)">Edit</a>
     <nz-divider nzType="vertical"></nz-divider>
     <a (click)="showDeleteConfirm(vacancy)" >Delete</a>
@@ -72,7 +70,7 @@
         <nz-form-item>
           <nz-form-label>Experience</nz-form-label>
           <nz-form-control  nzErrorTip="Experience is required">
-            <input type="number" formControlName="experience" nz-input placeholder="Please enter experience" />
+            <input min="0" type="number" formControlName="experience" nz-input placeholder="Please enter experience" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -80,7 +78,7 @@
         <nz-form-item>
           <nz-form-label>Salary</nz-form-label>
           <nz-form-control nzErrorTip="Salary is required">
-            <input type="number" formControlName="salary" nz-input placeholder="Please enter salary" />
+            <input min="1" type="number" formControlName="salary" nz-input placeholder="Please enter salary" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -91,7 +89,7 @@
         <nz-form-item>
           <nz-form-label>Quantity</nz-form-label>
           <nz-form-control nzErrorTip="Quantity is required">
-            <input type="number" formControlName="quantity" nz-input placeholder="Please enter quantity" />
+            <input min="1" type="number" formControlName="quantity" nz-input placeholder="Please enter quantity" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -136,7 +134,7 @@
         <nz-form-item>
           <nz-form-label>Experience</nz-form-label>
           <nz-form-control  nzErrorTip="Experience is required">
-            <input type="number" [(ngModel)]="experience" formControlName="experience" nz-input placeholder="Please enter experience" />
+            <input min="0" type="number" [(ngModel)]="experience" formControlName="experience" nz-input placeholder="Please enter experience" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -144,7 +142,7 @@
         <nz-form-item>
           <nz-form-label>Salary</nz-form-label>
           <nz-form-control nzErrorTip="Salary is required">
-            <input type="number" [(ngModel)]="salary" formControlName="salary" nz-input placeholder="Please enter salary" />
+            <input min="1" type="number" [(ngModel)]="salary" formControlName="salary" nz-input placeholder="Please enter salary" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -155,7 +153,7 @@
         <nz-form-item>
           <nz-form-label>Quantity</nz-form-label>
           <nz-form-control nzErrorTip="Quantity is required">
-            <input type="number" [(ngModel)]="quantity" formControlName="quantity" nz-input placeholder="Please enter quantity" />
+            <input min="1" type="number" [(ngModel)]="quantity" formControlName="quantity" nz-input placeholder="Please enter quantity" />
           </nz-form-control>
         </nz-form-item>
       </div>

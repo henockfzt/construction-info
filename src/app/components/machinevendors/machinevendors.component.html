@@ -1,6 +1,6 @@
 <div id="top">
   <h2>Material Vendors</h2>
-  <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Vendor</button>
+  <button *ngIf="isLoggedIn && !isWoreda"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Vendor</button>
 </div>
 <div>
 
@@ -19,6 +19,7 @@
     <th>Type</th>
     <th>Location</th>
     <th>Phone</th>
+    <th *ngIf="isLoggedIn && !isWoreda">Action</th>
   </tr>
   </thead>
   <tbody>
@@ -27,7 +28,7 @@
     <td>{{vendor.type}}</td>
     <td>HQ Mekelle</td>
     <td>0923-38-44-43</td>
-    <td>
+    <td *ngIf="isLoggedIn && !isWoreda">
       <a (click)="edit(vendor)">Edit</a>
       <nz-divider nzType="vertical"></nz-divider>
       <a (click)="showDeleteConfirm(vendor)" >Delete</a>

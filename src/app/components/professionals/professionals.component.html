@@ -1,6 +1,6 @@
 <div id="top">
   <h2>Professionals</h2>
-  <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Professional</button>
+  <button *ngIf="isLoggedIn && !isWoreda" nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Professional</button>
 </div>
 <div>
 
@@ -20,7 +20,7 @@
     <th>Educational Status</th>
     <th>Speciality</th>
     <th>Phone No.</th>
-    <th>Actions</th>
+    <th *ngIf="isLoggedIn && !isWoreda">Actions</th>
 
   </tr>
   </thead>
@@ -36,7 +36,7 @@
 
 
 
-    <td>
+    <td *ngIf="isLoggedIn && !isWoreda">
       <a (click)="edit(professional)">Edit</a>
       <nz-divider nzType="vertical"></nz-divider>
       <a (click)="showDeleteConfirm(professional)">Delete</a>
@@ -61,7 +61,6 @@
           </nz-form-control>
         </nz-form-item>
       </div>
-
     </div>
     <div nz-row [nzGutter]="8">
       <div nz-col nzSpan="12">
@@ -87,7 +86,7 @@
         <nz-form-item>
           <nz-form-label>Phone Number</nz-form-label>
           <nz-form-control nzErrorTip="Phone number is required">
-            <input formControlName="phoneNo" nz-input placeholder="Please enter phone number" />
+            <input type="tel" pattern="[0-9]{10}" formControlName="phoneNo" nz-input placeholder="Please enter phone number" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -112,7 +111,7 @@
       <div nz-col nzSpan="24">
         <nz-form-item>
           <nz-form-label>Professional Name</nz-form-label>
-          <nz-form-control nzErrorTip="Professional Name is required">
+          <nz-form-control nzErrorTip="A valid Professional Name is required">
             <input [(ngModel)]="name" formControlName="name" nz-input placeholder="Please enter professional name" />
           </nz-form-control>
         </nz-form-item>
@@ -122,8 +121,8 @@
     <div nz-row [nzGutter]="8">
       <div nz-col nzSpan="12">
         <nz-form-item>
-          <nz-form-label>Type</nz-form-label>
-          <nz-form-control  nzErrorTip="Grade is required">
+          <nz-form-label>Educational Status</nz-form-label>
+          <nz-form-control  nzErrorTip="A valid Educational Status is required">
             <input [(ngModel)]="educationalStatus" formControlName="educationalStatus" nz-input placeholder="Please enter Educational status" />
           </nz-form-control>
         </nz-form-item>
@@ -131,7 +130,7 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Speciality</nz-form-label>
-          <nz-form-control nzErrorTip="Type is required">
+          <nz-form-control nzErrorTip="A valid Type is required">
             <input [(ngModel)]="speciality" formControlName="speciality" nz-input placeholder="Please enter company type" />
           </nz-form-control>
         </nz-form-item>
@@ -143,7 +142,7 @@
         <nz-form-item>
           <nz-form-label>Phone Number</nz-form-label>
           <nz-form-control nzErrorTip="Phone Number is required">
-            <input [(ngModel)]="phoneNo" formControlName="phoneNo" nz-input placeholder="Please enter company phone number" />
+            <input type="tel" pattern="[0-9]{10}" [(ngModel)]="phoneNo" formControlName="phoneNo" nz-input placeholder="Please enter company phone number" />
           </nz-form-control>
         </nz-form-item>
       </div>

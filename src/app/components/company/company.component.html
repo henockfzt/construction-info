@@ -1,18 +1,16 @@
 <div id="top">
   <h2>Construction Companies</h2>
-  <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Company</button>
+  <button *ngIf="isLoggedIn && !isWoreda"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Company</button>
 </div>
 
 <div>
-
   <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
     <label for="name"></label>
     <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="nameFilter" />
-    <input id="grade" style="flex:0.4;" nz-input placeholder="Region" [(ngModel)]="gradeFilter" />
+    <input id="grade" style="flex:0.4;" nz-input placeholder="Grade" [(ngModel)]="gradeFilter" />
     <input id="type" style="flex:0.4;" nz-input placeholder="Type" [(ngModel)]="typeFilter" />
     <button nz-button nzType="primary" (click)="filter()">Filter</button>
   </div>
-
 </div>
 <nz-table #basicTable [nzData]="['']">
   <thead>
@@ -21,7 +19,7 @@
     <th>Grade</th>
     <th>Type</th>
     <th>Phone No.</th>
-    <th>Actions</th>
+    <th *ngIf="isLoggedIn && !isWoreda">Actions</th>
 
   </tr>
   </thead>
@@ -34,10 +32,10 @@
 
 
 
-    <td>
-      <a *ngIf="isLoggedIn" (click)="edit(company)">Edit</a>
+    <td *ngIf="isLoggedIn && !isWoreda">
+      <a (click)="edit(company)">Edit</a>
       <nz-divider nzType="vertical"></nz-divider>
-      <button *ngIf="isLoggedIn" nz-button nzType="dashed" (click)="showDeleteConfirm(company)"><a>Delete</a></button>
+      <button  nz-button nzType="dashed" (click)="showDeleteConfirm(company)"><a>Delete</a></button>
     </td>
   </tr>
   </tbody>
@@ -68,7 +66,7 @@
         <nz-form-item>
           <nz-form-label>Grade</nz-form-label>
           <nz-form-control  nzErrorTip="A valid Grade is required">
-            <input type="number" formControlName="grade" nz-input placeholder="Please enter company grade" />
+            <input min="1" type="number" formControlName="grade" nz-input placeholder="Please enter company grade" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -124,7 +122,7 @@
         <nz-form-item>
           <nz-form-label>Grade</nz-form-label>
           <nz-form-control  nzErrorTip="A valid Grade is required">
-            <input [(ngModel)]="companyGrade" formControlName="grade" nz-input placeholder="Please enter company grade" />
+            <input min="1" [(ngModel)]="companyGrade" type="number" formControlName="grade" nz-input placeholder="Please enter company grade" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -132,7 +130,7 @@
         <nz-form-item>
           <nz-form-label>Type</nz-form-label>
           <nz-form-control nzErrorTip="A valid Type is required">
-            <input type="tel" pattern="[0-9]{10}" [(ngModel)]="companyType" formControlName="type" nz-input placeholder="Please enter company type" />
+            <input  [(ngModel)]="companyType" formControlName="type" nz-input placeholder="Please enter company type" />
           </nz-form-control>
         </nz-form-item>
       </div>

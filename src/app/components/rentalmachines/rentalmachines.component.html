@@ -1,17 +1,17 @@
 <div id="top">
   <h2>Rental Machines</h2>
-  <button *ngIf="isLoggedIn"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Machine</button>
+  <button *ngIf="isLoggedIn && !isWoreda"  nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i>Add Machine</button>
 </div>
 <div>
 
   <div style="display:flex;background:#fafafa;padding:40px;justify-content: space-between">
     <label for="name"></label>
-    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="value" />
+    <input id="name" style="flex:0.4;" nz-input placeholder="Name" [(ngModel)]="titleFilter" />
     <h2 >Price Range:</h2>
     <span style="margin-left: 40px;align-self:center;">100BR</span>
     <nz-slider style="flex:0.4;" nzRange [(ngModel)]="value2" [nzDisabled]="disabled"></nz-slider>
     <span style="margin-left: 40px;align-self:center;">1000BR</span>
-    <button nz-button nzType="primary" >Filter</button>
+    <button nz-button nzType="primary" (click)="filter()">Filter</button>
   </div>
 
 </div>
@@ -20,8 +20,8 @@
 
     <img width="100%"  alt="example" src="{{machine.img}}" />
     <div style="display:flex; justify-content: space-evenly;">
-      <button *ngIf="isLoggedIn" (click)="edit(machine)" style="flex:1" nz-button nzType="dashed"><i nz-icon nzType="edit" style="color:cornflowerblue;"></i>Edit</button>
-      <button *ngIf="isLoggedIn" style="flex:1" nz-button nzType="dashed"><i nz-icon nzType="delete" style="color:red;"></i>Delete</button>
+      <button *ngIf="isLoggedIn && !isWoreda" (click)="edit(machine)" style="flex:1" nz-button nzType="dashed"><i nz-icon nzType="edit" style="color:cornflowerblue;"></i>Edit</button>
+      <button *ngIf="isLoggedIn && !isWoreda" (click)="showDeleteConfirm(machine)" style="flex:1" nz-button nzType="dashed"><i nz-icon nzType="delete" style="color:red;"></i>Delete</button>
     </div>
     <nz-card-meta
       nzTitle="{{machine.name}}"
@@ -45,7 +45,7 @@
       <div nz-col nzSpan="24">
         <nz-form-item>
           <nz-form-label>Machine Name</nz-form-label>
-          <nz-form-control nzErrorTip="Machine name is required">
+          <nz-form-control nzErrorTip="A valid Machine name is required">
             <input formControlName="name" nz-input placeholder="Please enter  Machine name" />
           </nz-form-control>
         </nz-form-item>
@@ -58,16 +58,16 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Phone Number</nz-form-label>
-          <nz-form-control nzErrorTip="Phone Number is required">
-            <input formControlName="phone" nz-input placeholder="Please enter contact phone number" />
+          <nz-form-control nzErrorTip="A valid Phone Number is required">
+            <input type="tel" pattern="[0-9]{10}" formControlName="phone" nz-input placeholder="Please enter contact phone number" />
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Price</nz-form-label>
-          <nz-form-control nzErrorTip="Price is required">
-            <input formControlName="price" nz-input placeholder="Please enter price" />
+          <nz-form-control nzErrorTip="A valid Price is required">
+            <input min="1" type="number" formControlName="price" nz-input placeholder="Please enter price" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -110,8 +110,8 @@
       <div nz-col nzSpan="24">
         <nz-form-item>
           <nz-form-label>Company Name</nz-form-label>
-          <nz-form-control nzErrorTip="Company Name is required">
-            <input [(ngModel)]="name" formControlName="name" nz-input placeholder="Please enter dealer name" />
+          <nz-form-control nzErrorTip="A valid Rental Machine Name is required">
+            <input [(ngModel)]="name" formControlName="name" nz-input placeholder="Please enter machine name" />
           </nz-form-control>
         </nz-form-item>
       </div>
@@ -123,22 +123,23 @@
       <div nz-col nzSpan="12">
         <nz-form-item>
           <nz-form-label>Phone Number</nz-form-label>
-          <nz-form-control nzErrorTip="Phone Number is required">
-            <input [(ngModel)]="phone" formControlName="phone" nz-input placeholder="Please enter contact phone number" />
+          <nz-form-control nzErrorTip="A valid Phone Number is required">
+            <input type="tel" pattern="[0-9]{10}" [(ngModel)]="phone" formControlName="phone" nz-input placeholder="Please enter contact phone number" />
           </nz-form-control>
         </nz-form-item>
       </div>
       <div nz-col nzSpan="12">
         <nz-form-item>
-          <nz-form-label>Phone Number</nz-form-label>
-          <nz-form-control nzErrorTip="Price is required">
-            <input [(ngModel)]="price" formControlName="phone" nz-input placeholder="Please enter price" />
+          <nz-form-label>Price</nz-form-label>
+          <nz-form-control nzErrorTip="A valid Price is required">
+            <input min="1" type="number" [(ngModel)]="price" formControlName="price" nz-input placeholder="Please enter price" />
           </nz-form-control>
         </nz-form-item>
       </div>
 
 
     </div>
+
 
     <div class="footer">
       <button type="button" (click)="closeEdit()" class="ant-btn" style="margin-right: 8px;"><span>Cancel</span></button>
