@@ -21,7 +21,7 @@ export class VaccancyComponent implements OnInit {
   public isLoggedIn = false;
   private editVisible: boolean;
   private vacancyId: string;
-  public isWoreda: any;
+  public isWoreda = true;
 
 
   constructor(private router:Router,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private vacancyService:VacancyserviceService) {

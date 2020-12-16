@@ -49,7 +49,6 @@ export class BidsComponent implements OnInit {
             this.isLoggedIn = loginStatus;
             console.log('called' + this.isLoggedIn);
 
-
           });
 
         }

@@ -24,7 +24,7 @@ export class MaterialpricesComponent implements OnInit {
   private editVisible: boolean;
   private materialId: string;
   private allMaterials: Material [] = [];
-  private isWoreda: any;
+  private isWoreda=true;
 
 
 

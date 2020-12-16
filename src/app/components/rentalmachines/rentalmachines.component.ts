@@ -33,7 +33,7 @@ export class RentalmachinesComponent implements OnInit {
   uploadProgress: number = 0;
   private selectedFile: any;
   private fileDetected=false;
-  public isWoreda: any;
+  public isWoreda = true;
   constructor(private router:Router,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private machineService:RentalmachineService) {
     this.router.events.subscribe(
       (event: Event) => {

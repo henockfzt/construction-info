@@ -15,7 +15,7 @@ export class CompanyComponent implements OnInit {
   companies:Company [] = [];
   createProviderForm:FormGroup;
   public isLoggedIn = false;
-  public isWoreda = false;
+  public isWoreda = true;
   private editVisible: boolean;
   private companyToBeEdited : Company;
   private companyId: string;
@@ -25,19 +25,19 @@ export class CompanyComponent implements OnInit {
   constructor(private router:Router,private route: ActivatedRoute,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private constructionCompanyService:CompanyserviceService) {
     this.router.events.subscribe(
       (event: Event) => {
+        console.log('called');
+        this.isLoggedIn = this.userService.getLoginStatus();
+        this.userService.getLoginState().subscribe(loginStatus=>{
+          this.isLoggedIn = loginStatus;
+          console.log('called' + this.isLoggedIn);
+
+        });
+        this.userService.getIsWoreda().subscribe(email=>{
+          this.isWoreda = email.includes('@gov.et');
+          console.log(this.isWoreda)
+        });
         if (event instanceof NavigationEnd) {
-          console.log('called');
-          this.isLoggedIn = this.userService.getLoginStatus();
-          this.userService.getLoginState().subscribe(loginStatus=>{
-            this.isLoggedIn = loginStatus;
-            console.log('called' + this.isLoggedIn);
 
-          });
-          this.userService.getIsWoreda().subscribe(email=>{
-            this.isWoreda = email.includes('@gov.et');
-            console.log(this.isWoreda)
-
-          });
         }
       });
   }

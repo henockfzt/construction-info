@@ -28,7 +28,7 @@ export class ContractdealersComponent implements OnInit {
   private allContractDealers: ContractDealer[] = [];
   private nameFilter: string = '';
   private typeFilter: string = '';
-  public isWoreda: any;
+  public isWoreda: any = true;
 
   constructor(private router:Router,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private dealerService:ContractdealerService) {
     this.router.events.subscribe(

@@ -23,7 +23,7 @@ export class MaterialVendorComponent implements OnInit {
   private allVendors: Vendor[] = [];
   private nameFilter='';
   private typeFilter = '';
-  public isWoreda: any;
+  public isWoreda= true;
 
 
   constructor(private router:Router,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private vendorService:MaterialvendorService) {

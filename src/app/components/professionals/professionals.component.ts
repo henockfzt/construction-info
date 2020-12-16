@@ -24,7 +24,7 @@ export class ProfessionalsComponent implements OnInit {
   private nameFilter='';
   private specialityFilter='';
   private experienceFilter='';
-  public isWoreda: any;
+  public isWoreda = true;
 
 
   constructor(private router:Router,private ref: ChangeDetectorRef ,private userService: UserService, private modal: NzModalService,private notification: NzNotificationService, private fb:FormBuilder,private professionalService:ProfessionalService) {
